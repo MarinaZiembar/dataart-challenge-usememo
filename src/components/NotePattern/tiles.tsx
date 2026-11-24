@@ -86,8 +86,8 @@ const pinkStars = (
       <polygon
         key={index}
         points={starPoints({ x, y }, radius, radius * 0.48, rotation)}
-        fill="#F27A9B"
-        stroke="#F27A9B"
+        fill="#F7BE1E"
+        stroke="#F7BE1E"
         strokeWidth={1.5}
         strokeLinejoin="round"
       />
@@ -158,7 +158,7 @@ const wobblyGrid = (
 const lavenderWaves = (
   <path
     d="M0 17.5C12.5 8 25 8 37.5 17.5S62.5 27 75 17.5"
-    stroke="#FBF1E3"
+    stroke="#F7BE1E"
     strokeWidth={14}
     strokeLinecap="round"
     fill="none"
@@ -196,8 +196,8 @@ const halfMoons = (
 const TILE = { width: 50, height: 50 };
 
 export const PATTERN_TILES: Record<NotePattern, PatternTile> = {
-  'lilac-blooms': { size: TILE, background: '#FBF1E3', motifs: lilacBlooms },
-  'pink-stars': { size: TILE, background: '#FBF1E3', motifs: pinkStars },
+  'lilac-blooms': { size: TILE, background: '#B08EE0', motifs: lilacBlooms },
+  'pink-stars': { size: TILE, background: '#F27A9B', motifs: pinkStars },
   'lavender-checker': { size: TILE, background: '#FBF1E3', motifs: lavenderChecker },
   'hearts-checker': { size: TILE, background: '#FBF1E3', motifs: heartsChecker },
   'wobbly-grid': { size: TILE, background: '#F26B2A', motifs: wobblyGrid },
