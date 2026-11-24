@@ -4,6 +4,7 @@ import {
   defaultRectAt,
   fitRect,
   isClick,
+  resizeRect,
   nextZIndex,
   rectFromPoints,
   type Note,
@@ -63,6 +64,37 @@ describe('note domain', () => {
         width: 200,
         height: 200,
       });
+    });
+  });
+
+  describe('resizeRect', () => {
+    const rect = { x: 100, y: 100, width: 200, height: 200 };
+    const bounds = { width: 1000, height: 800 };
+
+    it('applies the new size and keeps the position', () => {
+      expect(resizeRect(rect, { width: 320, height: 240 }, bounds)).toEqual({
+        x: 100,
+        y: 100,
+        width: 320,
+        height: 240,
+      });
+    });
+
+    it('respects the minimum and maximum size', () => {
+      expect(resizeRect(rect, { width: 10, height: 10 }, bounds)).toMatchObject({
+        width: 100,
+        height: 80,
+      });
+      expect(resizeRect(rect, { width: 900, height: 900 }, bounds)).toMatchObject({
+        width: 600,
+        height: 600,
+      });
+    });
+
+    it('stops at the board edges', () => {
+      expect(
+        resizeRect({ ...rect, x: 700, y: 600 }, { width: 500, height: 500 }, bounds),
+      ).toMatchObject({ width: 300, height: 200 });
     });
   });
 

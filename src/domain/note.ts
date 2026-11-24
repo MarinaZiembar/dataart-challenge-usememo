@@ -61,6 +61,15 @@ export const clampToBounds = (rect: Rect, bounds: Size): Rect => ({
 export const fitRect = (rect: Rect, bounds: Size): Rect =>
   clampToBounds({ ...rect, ...clampSize(rect) }, bounds);
 
+export const resizeRect = (rect: Rect, size: Size, bounds: Size): Rect => {
+  const clamped = clampSize(size);
+  return {
+    ...rect,
+    width: Math.max(NOTE_SIZE.minWidth, Math.min(clamped.width, bounds.width - rect.x)),
+    height: Math.max(NOTE_SIZE.minHeight, Math.min(clamped.height, bounds.height - rect.y)),
+  };
+};
+
 export const rectFromPoints = (start: Point, end: Point): Rect => ({
   x: Math.min(start.x, end.x),
   y: Math.min(start.y, end.y),
