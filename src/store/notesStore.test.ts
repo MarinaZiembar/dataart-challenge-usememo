@@ -110,4 +110,21 @@ describe('notesStore', () => {
 
     expect(useNotesStore.getState().drag).toBeNull();
   });
+
+  it('updates the text of a note', () => {
+    useNotesStore.getState().setNotes([note]);
+
+    useNotesStore.getState().updateText(note.id, 'Call Sofi');
+
+    expect(useNotesStore.getState().notes[0]).toMatchObject({ text: 'Call Sofi' });
+    expect(useNotesStore.getState().notes[0]?.updatedAt).not.toBe(note.updatedAt);
+  });
+
+  it('keeps the note untouched when the text does not change', () => {
+    useNotesStore.getState().setNotes([note]);
+
+    useNotesStore.getState().updateText(note.id, note.text);
+
+    expect(useNotesStore.getState().notes[0]).toBe(note);
+  });
 });

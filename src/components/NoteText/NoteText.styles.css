@@ -1,0 +1,13 @@
+@reference '../../styles/global.css';
+
+.note-text {
+  @apply m-0 size-full overflow-auto text-note break-words whitespace-pre-wrap text-ink;
+}
+
+.note-text--empty {
+  @apply text-muted/70;
+}
+
+.note-text--editing {
+  @apply resize-none border-0 bg-transparent p-0 outline-none placeholder:text-muted/70;
+}
