@@ -26,5 +26,16 @@ export default tseslint.config(
       'no-console': ['warn', { allow: ['error'] }],
     },
   },
+  {
+    files: ['e2e/**/*.ts', 'playwright.config.ts'],
+    languageOptions: {
+      globals: globals.node,
+    },
+    rules: {
+      'react-hooks/rules-of-hooks': 'off',
+      'react-hooks/exhaustive-deps': 'off',
+      'react-refresh/only-export-components': 'off',
+    },
+  },
   prettier,
 );
