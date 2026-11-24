@@ -14,6 +14,8 @@ const note: Note = {
   updatedAt: '2026-11-24T00:00:00.000Z',
 };
 
+const bounds = { width: 1000, height: 800 };
+
 describe('notesStore', () => {
   beforeEach(() => {
     useNotesStore.setState({ notes: [] });
@@ -27,5 +29,35 @@ describe('notesStore', () => {
     useNotesStore.getState().setNotes([note]);
 
     expect(useNotesStore.getState().notes).toEqual([note]);
+  });
+
+  it('adds a note with the given position and size', () => {
+    useNotesStore.getState().addNote({ x: 40, y: 60, width: 240, height: 180 }, bounds);
+
+    expect(useNotesStore.getState().notes[0]).toMatchObject({
+      x: 40,
+      y: 60,
+      width: 240,
+      height: 180,
+      zIndex: 1,
+    });
+  });
+
+  it('clamps the size and keeps the note inside the board', () => {
+    useNotesStore.getState().addNote({ x: 990, y: 790, width: 20, height: 20 }, bounds);
+
+    expect(useNotesStore.getState().notes[0]).toMatchObject({
+      x: 900,
+      y: 720,
+      width: 100,
+      height: 80,
+    });
+  });
+
+  it('places every new note on top of the others', () => {
+    useNotesStore.getState().setNotes([note]);
+    useNotesStore.getState().addNote({ x: 0, y: 0, width: 200, height: 200 }, bounds);
+
+    expect(useNotesStore.getState().notes[1]?.zIndex).toBe(2);
   });
 });
