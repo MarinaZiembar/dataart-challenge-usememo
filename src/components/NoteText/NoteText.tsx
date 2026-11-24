@@ -1,5 +1,5 @@
 import { useState, type FocusEvent, type KeyboardEvent } from 'react';
-import { MAX_TEXT_LENGTH } from '../../domain/note';
+import { MAX_TEXT_LENGTH } from '../../constants/notes';
 import './NoteText.styles.css';
 
 interface NoteTextProps {

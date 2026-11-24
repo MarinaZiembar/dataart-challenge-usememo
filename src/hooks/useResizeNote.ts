@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState, type PointerEvent } from 'react';
-import { resizeRect, type Note, type Point, type Size } from '../domain/note';
+import type { Point, Size } from '../types/geometry';
+import type { Note } from '../types/notes';
+import { resizeRect } from '../utils/notes';
 import { useNotesStore } from '../store/notesStore';
-import { boardBounds } from './boardBounds';
+import { boardBounds } from '../utils/board';
 
 interface Gesture {
   start: Point;

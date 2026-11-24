@@ -72,19 +72,33 @@ The commit is blocked if any check fails.
 src/
 ├── App/                  # Root component
 ├── components/           # UI components (one folder per component)
-│   └── Header/
+│   └── Note/
 │       ├── index.ts
-│       ├── Header.tsx
-│       ├── Header.styles.css
-│       └── Header.test.tsx
-├── domain/               # Types and constants (Note, patterns, sizes)
-├── store/                # Zustand stores
+│       ├── Note.tsx
+│       ├── Note.styles.css
+│       └── Note.test.tsx
+├── constants/            # Product rules (note sizes, text size, patterns, limits)
+│   └── notes.ts
+├── hooks/                # Gesture hooks (draw, move, resize)
+├── store/                # Zustand store
 ├── styles/               # Tailwind theme tokens and global styles
-└── test/                 # Jest setup
+├── test/                 # Jest setup
+├── types/                # Shared types, one file per subject
+│   ├── geometry.ts       # Point, Size, Rect
+│   └── notes.ts          # Note, NoteId, NotePattern
+└── utils/                # Pure helper functions, one file per subject
+    ├── __tests__/
+    │   ├── board.test.ts
+    │   ├── geometry.test.ts
+    │   └── notes.test.ts
+    ├── board.ts          # Board and trash zone rects
+    ├── geometry.ts       # clamp, rect from points, click, overlap
+    └── notes.ts          # Create, fit, resize, font size, layers
 ```
 
 ## Conventions
 
+- **Types, utils and constants:** one file per subject (`notes.ts`, `geometry.ts`…); tests of `utils/` live in `utils/__tests__/`.
 - **Components:** one folder per component with `index.ts`, `Component.tsx`, `Component.styles.css` and `Component.test.tsx`.
 - **Styles:** components use short semantic class names (`header__logo`); each `Component.styles.css` builds them with Tailwind `@apply` (`@reference '../../styles/global.css'`).
 - **Code:** simple and readable, no code comments, cyclomatic complexity ≤ 10 (enforced by ESLint).

@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { Note } from './Note';
 import { useNotesStore } from '../../store/notesStore';
-import type { Note as NoteModel, NoteId } from '../../domain/note';
+import type { Note as NoteModel, NoteId } from '../../types/notes';
 
 const note: NoteModel = {
   id: 'note-1' as NoteId,
@@ -57,6 +57,12 @@ describe('Note', () => {
     });
   });
 
+  it('uses the standard 16px text size for a 200 × 200 note', () => {
+    render(<Note note={{ ...note, width: 200, height: 200 }} />);
+
+    expect(screen.getByRole('article', { name: 'Note' })).toHaveStyle({ fontSize: '16px' });
+  });
+
   it('shows its text', () => {
     render(<Note note={note} />);
 
@@ -78,7 +84,7 @@ describe('Note', () => {
 
       drag(handle, [60, 40]);
 
-      expect(article).toHaveStyle({ width: '300px', height: '220px' });
+      expect(article).toHaveStyle({ width: '300px', height: '220px', fontSize: '21px' });
       expect(screen.getByText('300 × 220')).toBeInTheDocument();
     });
 
@@ -96,7 +102,7 @@ describe('Note', () => {
 
       drag(handle, [-500, -500]);
 
-      expect(article).toHaveStyle({ width: '100px', height: '80px' });
+      expect(article).toHaveStyle({ width: '100px', height: '80px', fontSize: '14px' });
     });
 
     it('does not grow past the board', () => {

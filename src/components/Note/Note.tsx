@@ -1,5 +1,7 @@
 import { memo, useState, type KeyboardEvent } from 'react';
-import type { Note as NoteModel, Point } from '../../domain/note';
+import type { Point } from '../../types/geometry';
+import type { Note as NoteModel } from '../../types/notes';
+import { noteFontSize } from '../../utils/notes';
 import { useMoveNote } from '../../hooks/useMoveNote';
 import { useResizeNote } from '../../hooks/useResizeNote';
 import { NoteText } from '../NoteText';
@@ -46,6 +48,7 @@ export const Note = memo(function Note({ note }: NoteProps) {
     height,
     zIndex: isDragging ? DRAGGING_Z_INDEX : note.zIndex,
     transform: transformFor(offset),
+    fontSize: noteFontSize({ width, height }),
   };
 
   const onKeyDown = (event: KeyboardEvent<HTMLElement>) => {
@@ -71,6 +74,8 @@ export const Note = memo(function Note({ note }: NoteProps) {
       data-pattern={note.pattern}
       onKeyDown={onKeyDown}
       onDoubleClick={() => setIsEditing(true)}
+      onPointerDownCapture={() => useNotesStore.getState().bringToFront(note.id)}
+      onFocus={() => useNotesStore.getState().bringToFront(note.id)}
       {...bodyProps}
     >
       {!isDragging && !isResizing && (

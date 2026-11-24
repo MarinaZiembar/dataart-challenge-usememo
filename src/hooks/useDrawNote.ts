@@ -1,12 +1,7 @@
 import { useEffect, useRef, useState, type PointerEvent } from 'react';
-import {
-  defaultRectAt,
-  isClick,
-  rectFromPoints,
-  type Point,
-  type Rect,
-  type Size,
-} from '../domain/note';
+import type { Point, Rect, Size } from '../types/geometry';
+import { isClick, rectFromPoints } from '../utils/geometry';
+import { defaultRectAt } from '../utils/notes';
 import { useNotesStore } from '../store/notesStore';
 
 interface Gesture {

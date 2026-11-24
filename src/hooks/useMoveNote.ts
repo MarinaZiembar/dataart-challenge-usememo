@@ -1,14 +1,9 @@
 import { useEffect, useRef, useState, type PointerEvent } from 'react';
-import {
-  clampToBounds,
-  isClick,
-  isOverlapping,
-  type Note,
-  type Point,
-  type Rect,
-} from '../domain/note';
+import type { Point, Rect } from '../types/geometry';
+import type { Note } from '../types/notes';
+import { clampToBounds, isClick, isOverlapping } from '../utils/geometry';
 import { useNotesStore } from '../store/notesStore';
-import { boardBounds, trashZoneRect } from './boardBounds';
+import { boardBounds, trashZoneRect } from '../utils/board';
 
 interface Gesture {
   start: Point;

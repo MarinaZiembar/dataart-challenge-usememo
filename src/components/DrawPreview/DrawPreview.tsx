@@ -1,4 +1,5 @@
-import { clampSize, type Rect } from '../../domain/note';
+import type { Rect } from '../../types/geometry';
+import { clampSize } from '../../utils/notes';
 import './DrawPreview.styles.css';
 
 interface DrawPreviewProps {

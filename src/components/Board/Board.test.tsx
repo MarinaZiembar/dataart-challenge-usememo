@@ -1,7 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { Board } from './Board';
 import { useNotesStore } from '../../store/notesStore';
-import type { Note, NoteId } from '../../domain/note';
+import type { Note, NoteId } from '../../types/notes';
 
 const note: Note = {
   id: 'note-1' as NoteId,
@@ -127,5 +127,31 @@ describe('Board', () => {
 
     expect(useNotesStore.getState().notes).toHaveLength(0);
     field.remove();
+  });
+
+  it('brings the note you press to the front', () => {
+    const below = { ...note, id: 'below' as NoteId, text: 'Below', zIndex: 1 };
+    const above = { ...note, id: 'above' as NoteId, text: 'Above', zIndex: 2 };
+    useNotesStore.setState({ notes: [below, above] });
+    renderBoard();
+
+    const belowNote = screen.getByText('Below').closest('article') as HTMLElement;
+    fireEvent.pointerDown(belowNote, { clientX: 50, clientY: 50, button: 0, pointerId: 1 });
+    fireEvent.pointerUp(belowNote, { clientX: 50, clientY: 50, pointerId: 1 });
+
+    expect(belowNote).toHaveStyle({ zIndex: '3' });
+    expect(screen.getByText('Above').closest('article')).toHaveStyle({ zIndex: '2' });
+  });
+
+  it('brings a note to the front when it gets keyboard focus', () => {
+    const below = { ...note, id: 'below' as NoteId, text: 'Below', zIndex: 1 };
+    const above = { ...note, id: 'above' as NoteId, text: 'Above', zIndex: 2 };
+    useNotesStore.setState({ notes: [below, above] });
+    renderBoard();
+
+    const belowNote = screen.getByText('Below').closest('article') as HTMLElement;
+    act(() => belowNote.focus());
+
+    expect(belowNote).toHaveStyle({ zIndex: '3' });
   });
 });
