@@ -4,7 +4,7 @@
 
 # useMemo
 
-A single-page sticky notes board built with **React + TypeScript** for the DataArt Front-end Challenge. Create, move, resize and toss notes in the trash — notes look like printed notepads, with a pattern frame and a washi-tape strip.
+A single-page sticky notes board built with **React + TypeScript** for the DataArt Front-end Challenge. Create, move, resize and toss notes in the trash — notes look like printed notepads, with a pattern frame and a washi-tape strip, and they are saved in your browser so they are still there after a reload.
 
 ## Links
 
@@ -15,7 +15,46 @@ A single-page sticky notes board built with **React + TypeScript** for the DataA
 | Jira board (Sprint 1) | [DCU board](https://marinaziembar-team.atlassian.net/jira/software/projects/DCU/boards/2)                      |
 | PRD                   | [DCU-2 · Product requirements](https://marinaziembar-team.atlassian.net/browse/DCU-2)                          |
 | RFC                   | [DCU-1 · Technical architecture](https://marinaziembar-team.atlassian.net/browse/DCU-1)                        |
-| Architecture          | [ARCHITECTURE.md](ARCHITECTURE.md) _(DCU-19)_                                                                  |
+| Architecture          | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)                                                                   |
+
+## Features
+
+### Core
+
+| #   | Feature                                           | How                                                                           |
+| --- | ------------------------------------------------- | ----------------------------------------------------------------------------- |
+| F1  | Create a note of a given size at a given position | Drag on an empty part of the board to draw it; a single click creates 200×200 |
+| F2  | Change the size of a note by dragging             | Drag the round handle on the bottom-right corner (100×80 to 600×600)          |
+| F3  | Move a note by dragging                           | Drag the note anywhere inside the board                                       |
+| F4  | Remove a note by dragging it over the trash zone  | Drop it on the trash zone in the bottom-right corner                          |
+
+### Bonus
+
+| #   | Feature                      | How                                                                                       |
+| --- | ---------------------------- | ----------------------------------------------------------------------------------------- |
+| B1  | Enter and edit text          | Double-click a note (or press Enter on it); click outside or press Esc to finish          |
+| B2  | Bring a note to the front    | Press or focus a note and it moves on top of the others                                   |
+| B3  | Save to localStorage         | Every change is saved automatically and restored on reload; the header shows the status   |
+| B4  | Note patterns _(extra mile)_ | 8 printed patterns; change one from the swatch on a note's corner, or pick it in the dock |
+
+Also: the note text scales with the note (16px on a 200×200 note, between 14px and 24px), and "+ New note" in the dock creates a note in the middle of the screen.
+
+## How to use
+
+| Action                        | Mouse                                             | Keyboard                            |
+| ----------------------------- | ------------------------------------------------- | ----------------------------------- |
+| Create a note                 | Drag on the empty board, or click “+ New note”    | Tab to “+ New note” and press Enter |
+| Move a note                   | Drag it                                           | —                                   |
+| Resize a note                 | Drag the handle on its bottom-right corner        | —                                   |
+| Edit the text                 | Double-click the note                             | Focus the note and press Enter      |
+| Finish editing                | Click outside                                     | Esc                                 |
+| Cancel a draw, move or resize | —                                                 | Esc while dragging                  |
+| Delete a note                 | Drop it on the trash zone                         | Focus the note and press Delete     |
+| Change the pattern            | Hover the note and click the swatch on its corner | Arrow keys in the picker, Enter     |
+
+## Saving
+
+Notes are saved only in the browser's `localStorage` (key `useMemo:notes:v1`); there is no backend. They survive a reload but are not shared between browsers or devices. If the stored data is broken it is ignored and the board starts empty, and if the storage is full or blocked the header shows a warning while the board keeps working.
 
 ## Tech stack
 
@@ -62,6 +101,7 @@ The app runs at http://localhost:5173.
 - **Unit tests** cover every pure function, the storage service, the store and the hooks. They live in a `__tests__` folder next to the code (`utils/`, `services/`, `store/`, `hooks/`).
 - **Component and integration tests** live next to each component (`Component.test.tsx`). `App.test.tsx` runs the whole app the way `main.tsx` starts it: notes restored from a real `localStorage`, every user flow (create, move, resize, edit, change pattern, bring to front, delete) checked on screen and in storage, plus broken data and a full or blocked storage.
 - **Coverage:** `npm run test:coverage` fails if `src/utils`, `src/services`, `src/store` or `src/hooks` drop below 80% (statements, branches, functions and lines).
+- **End-to-end:** Playwright tests across Chrome, Firefox and Edge are planned in DCU-20.
 - **CI:** GitHub Actions (`.github/workflows/ci.yml`) runs lint, typecheck and the tests with coverage on every push and on pull requests to `development` and `main`.
 
 ## Pre-commit checks
@@ -76,14 +116,27 @@ The commit is blocked if any check fails.
 ## Project structure
 
 ```
+docs/
+├── ARCHITECTURE.md       # Architecture description
+└── cover.png             # README cover
+
 src/
 ├── App/                  # Root component
-├── components/           # UI components (one folder per component)
-│   └── Note/
-│       ├── index.ts
-│       ├── Note.tsx
-│       ├── Note.styles.css
-│       └── Note.test.tsx
+├── components/           # UI components, one folder per component
+│   ├── Board/            # The board, drawing new notes and the empty state
+│   ├── Dock/             # “+ New note” and the pattern for new notes
+│   ├── DrawPreview/      # Dashed outline while drawing
+│   ├── Header/           # Logo and save status
+│   ├── Note/             # A note: move, resize, edit, delete
+│   │   ├── index.ts
+│   │   ├── Note.tsx
+│   │   ├── Note.styles.css
+│   │   └── Note.test.tsx
+│   ├── NotePattern/      # The 8 patterns as inline SVG tiles
+│   ├── NotePatternMenu/  # Swatch button on a note that opens the picker
+│   ├── NoteText/         # Note text and the text field
+│   ├── PatternPicker/    # Popover with the 8 patterns
+│   └── TrashZone/        # Drop zone to delete notes
 ├── constants/            # Product rules, one file per subject
 │   ├── notes.ts          # Note sizes, text size, patterns, limits
 │   └── storage.ts        # Storage key and save delay
