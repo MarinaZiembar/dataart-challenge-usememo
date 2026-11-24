@@ -60,4 +60,16 @@ describe('notesStore', () => {
 
     expect(useNotesStore.getState().notes[1]?.zIndex).toBe(2);
   });
+
+  it('resizes only the given note', () => {
+    const other = { ...note, id: 'note-2' as NoteId };
+    useNotesStore.getState().setNotes([note, other]);
+
+    useNotesStore.getState().resizeNote(note.id, { width: 320, height: 240 });
+
+    const [resized, untouched] = useNotesStore.getState().notes;
+    expect(resized).toMatchObject({ width: 320, height: 240, x: 10, y: 20 });
+    expect(resized?.updatedAt).not.toBe(note.updatedAt);
+    expect(untouched).toEqual(other);
+  });
 });
