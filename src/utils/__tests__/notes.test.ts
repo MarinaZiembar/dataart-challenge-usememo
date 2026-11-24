@@ -5,6 +5,7 @@ import {
   createNote,
   defaultRectAt,
   fitRect,
+  isNote,
   nextZIndex,
   noteFontSize,
   resizeRect,
@@ -150,5 +151,25 @@ describe('notes utils', () => {
       updatedAt: now.toISOString(),
     });
     expect(note.id).toEqual(expect.any(String));
+  });
+
+  describe('isNote', () => {
+    const note = createNote({ x: 0, y: 0, width: 200, height: 200 }, 1);
+
+    it('accepts a valid note', () => {
+      expect(isNote(note)).toBe(true);
+    });
+
+    it.each([
+      ['null', null],
+      ['a string', 'note'],
+      ['a missing id', { ...note, id: undefined }],
+      ['a non numeric position', { ...note, x: '10' }],
+      ['an infinite size', { ...note, width: Infinity }],
+      ['an unknown pattern', { ...note, pattern: 'plaid' }],
+      ['a text over the limit', { ...note, text: 'a'.repeat(1001) }],
+    ])('rejects %s', (_, value) => {
+      expect(isNote(value)).toBe(false);
+    });
   });
 });

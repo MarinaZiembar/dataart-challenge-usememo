@@ -9,7 +9,16 @@
 }
 
 .header__dot {
-  @apply size-2 rounded-full bg-pattern-sage;
+  @apply size-2 rounded-full bg-pattern-sage transition-colors duration-200;
+}
+
+.header__dot--saving {
+  @apply bg-tape;
+}
+
+.header__dot--quota,
+.header__dot--unavailable {
+  @apply bg-danger;
 }
 
 .header__status {
