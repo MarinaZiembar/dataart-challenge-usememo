@@ -1,6 +1,23 @@
-import { createRef } from 'react';
+import { createRef, useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { PatternPicker } from './PatternPicker';
+import type { NotePattern } from '../../types/notes';
+
+const StatefulPicker = ({ onChange }: { onChange: (pattern: NotePattern) => void }) => {
+  const [value, setValue] = useState<NotePattern>('pink-stars');
+  const [anchorRef] = useState(() => createRef<HTMLButtonElement>());
+  return (
+    <PatternPicker
+      value={value}
+      onChange={(pattern) => {
+        onChange(pattern);
+        setValue(pattern);
+      }}
+      onClose={jest.fn()}
+      anchorRef={anchorRef}
+    />
+  );
+};
 
 const renderPicker = (value: Parameters<typeof PatternPicker>[0]['value'] = 'pink-stars') => {
   const onChange = jest.fn();
@@ -41,15 +58,17 @@ describe('PatternPicker', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
-  it('moves the selection with the arrow keys', () => {
-    const { onChange } = renderPicker('pink-stars');
-    const radio = screen.getByRole('radio', { name: 'Pink stars' });
+  it('moves the selection and the focus with the arrow keys', () => {
+    const onChange = jest.fn();
+    render(<StatefulPicker onChange={onChange} />);
 
-    fireEvent.keyDown(radio, { key: 'ArrowRight' });
-    fireEvent.keyDown(radio, { key: 'ArrowDown' });
-    fireEvent.keyDown(radio, { key: 'ArrowLeft' });
+    fireEvent.keyDown(document.activeElement as Element, { key: 'ArrowRight' });
+    fireEvent.keyDown(document.activeElement as Element, { key: 'ArrowDown' });
+    fireEvent.keyDown(document.activeElement as Element, { key: 'ArrowLeft' });
 
-    expect(onChange.mock.calls).toEqual([['lavender-checker'], ['half-moons'], ['lilac-blooms']]);
+    expect(onChange.mock.calls).toEqual([['lavender-checker'], ['half-moons'], ['lavender-waves']]);
+    expect(screen.getByRole('radio', { name: 'Lavender waves' })).toBeChecked();
+    expect(screen.getByRole('radio', { name: 'Lavender waves' })).toHaveFocus();
   });
 
   it('wraps around at the ends', () => {
