@@ -11,16 +11,27 @@ import {
   type Size,
 } from '../domain/note';
 
+interface Drag {
+  id: NoteId;
+  overTrash: boolean;
+}
+
 interface NotesState {
   notes: Note[];
+  drag: Drag | null;
   setNotes: (notes: Note[]) => void;
   addNote: (rect: Rect, bounds: Size) => void;
   resizeNote: (id: NoteId, size: Size) => void;
   moveNote: (id: NoteId, position: Point, bounds: Size) => void;
+  removeNote: (id: NoteId) => void;
+  startDrag: (id: NoteId) => void;
+  setOverTrash: (overTrash: boolean) => void;
+  endDrag: () => void;
 }
 
 export const useNotesStore = create<NotesState>()((set) => ({
   notes: [],
+  drag: null,
   setNotes: (notes) => set({ notes }),
   addNote: (rect, bounds) =>
     set((state) => ({
@@ -43,4 +54,13 @@ export const useNotesStore = create<NotesState>()((set) => ({
           : note,
       ),
     })),
+  removeNote: (id) => set((state) => ({ notes: state.notes.filter((note) => note.id !== id) })),
+  startDrag: (id) => set({ drag: { id, overTrash: false } }),
+  setOverTrash: (overTrash) =>
+    set((state) =>
+      state.drag && state.drag.overTrash !== overTrash
+        ? { drag: { ...state.drag, overTrash } }
+        : state,
+    ),
+  endDrag: () => set({ drag: null }),
 }));

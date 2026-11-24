@@ -4,7 +4,7 @@ import { useNotesStore } from '../../store/notesStore';
 
 describe('Dock', () => {
   beforeEach(() => {
-    useNotesStore.setState({ notes: [] });
+    useNotesStore.setState({ notes: [], drag: null });
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1440 });
     Object.defineProperty(window, 'innerHeight', { configurable: true, value: 900 });
   });

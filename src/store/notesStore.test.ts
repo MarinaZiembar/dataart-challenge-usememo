@@ -18,7 +18,7 @@ const bounds = { width: 1000, height: 800 };
 
 describe('notesStore', () => {
   beforeEach(() => {
-    useNotesStore.setState({ notes: [] });
+    useNotesStore.setState({ notes: [], drag: null });
   });
 
   it('starts with an empty board', () => {
@@ -81,5 +81,33 @@ describe('notesStore', () => {
 
     useNotesStore.getState().moveNote(note.id, { x: 2000, y: -50 }, bounds);
     expect(useNotesStore.getState().notes[0]).toMatchObject({ x: 800, y: 0 });
+  });
+
+  it('removes a note', () => {
+    const other = { ...note, id: 'note-2' as NoteId };
+    useNotesStore.getState().setNotes([note, other]);
+
+    useNotesStore.getState().removeNote(note.id);
+
+    expect(useNotesStore.getState().notes).toEqual([other]);
+  });
+
+  it('tracks the dragged note and whether it is over the trash', () => {
+    const { startDrag, setOverTrash, endDrag } = useNotesStore.getState();
+
+    startDrag(note.id);
+    expect(useNotesStore.getState().drag).toEqual({ id: note.id, overTrash: false });
+
+    setOverTrash(true);
+    expect(useNotesStore.getState().drag).toEqual({ id: note.id, overTrash: true });
+
+    endDrag();
+    expect(useNotesStore.getState().drag).toBeNull();
+  });
+
+  it('ignores setOverTrash when nothing is being dragged', () => {
+    useNotesStore.getState().setOverTrash(true);
+
+    expect(useNotesStore.getState().drag).toBeNull();
   });
 });

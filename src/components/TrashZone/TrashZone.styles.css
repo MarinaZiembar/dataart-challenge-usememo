@@ -1,0 +1,33 @@
+@reference '../../styles/global.css';
+
+.trash-zone {
+  @apply pointer-events-none absolute right-7 bottom-7 z-10 flex h-[120px] w-40 flex-col items-center justify-center gap-2 rounded-3xl border-2 border-dashed border-line bg-surface text-muted transition-colors duration-150;
+}
+
+.trash-zone__icon {
+  @apply size-7;
+}
+
+.trash-zone__lid {
+  @apply origin-[20px_7px] transition-transform duration-150;
+}
+
+.trash-zone__label {
+  @apply text-label;
+}
+
+.trash-zone--active {
+  @apply border-danger bg-danger/10 text-danger;
+}
+
+.trash-zone--active .trash-zone__label {
+  @apply text-ink;
+}
+
+.trash-zone--hover {
+  @apply border-solid border-danger bg-danger text-surface;
+}
+
+.trash-zone--hover .trash-zone__lid {
+  @apply -rotate-12;
+}
