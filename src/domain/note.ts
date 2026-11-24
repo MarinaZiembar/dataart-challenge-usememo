@@ -52,7 +52,7 @@ export const clampSize = ({ width, height }: Size): Size => ({
   height: Math.round(clamp(height, NOTE_SIZE.minHeight, NOTE_SIZE.max)),
 });
 
-export const clampToBounds = (rect: Rect, bounds: Size): Rect => ({
+export const clampToBounds = <T extends Rect>(rect: T, bounds: Size): T => ({
   ...rect,
   x: Math.round(clamp(rect.x, 0, Math.max(0, bounds.width - rect.width))),
   y: Math.round(clamp(rect.y, 0, Math.max(0, bounds.height - rect.height))),

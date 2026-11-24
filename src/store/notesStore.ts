@@ -1,10 +1,12 @@
 import { create } from 'zustand';
 import {
+  clampToBounds,
   createNote,
   fitRect,
   nextZIndex,
   type Note,
   type NoteId,
+  type Point,
   type Rect,
   type Size,
 } from '../domain/note';
@@ -14,6 +16,7 @@ interface NotesState {
   setNotes: (notes: Note[]) => void;
   addNote: (rect: Rect, bounds: Size) => void;
   resizeNote: (id: NoteId, size: Size) => void;
+  moveNote: (id: NoteId, position: Point, bounds: Size) => void;
 }
 
 export const useNotesStore = create<NotesState>()((set) => ({
@@ -27,6 +30,17 @@ export const useNotesStore = create<NotesState>()((set) => ({
     set((state) => ({
       notes: state.notes.map((note) =>
         note.id === id ? { ...note, ...size, updatedAt: new Date().toISOString() } : note,
+      ),
+    })),
+  moveNote: (id, position, bounds) =>
+    set((state) => ({
+      notes: state.notes.map((note) =>
+        note.id === id
+          ? {
+              ...clampToBounds({ ...note, ...position }, bounds),
+              updatedAt: new Date().toISOString(),
+            }
+          : note,
       ),
     })),
 }));

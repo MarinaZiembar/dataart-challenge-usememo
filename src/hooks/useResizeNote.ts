@@ -1,17 +1,12 @@
 import { useEffect, useRef, useState, type PointerEvent } from 'react';
 import { resizeRect, type Note, type Point, type Size } from '../domain/note';
 import { useNotesStore } from '../store/notesStore';
+import { boardBounds } from './boardBounds';
 
 interface Gesture {
   start: Point;
   bounds: Size;
 }
-
-const boardBounds = (element: HTMLElement): Size => {
-  const board = element.closest('main') ?? document.body;
-  const box = board.getBoundingClientRect();
-  return { width: box.width, height: box.height };
-};
 
 export function useResizeNote(note: Note) {
   const resizeNote = useNotesStore((state) => state.resizeNote);
