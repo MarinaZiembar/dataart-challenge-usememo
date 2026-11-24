@@ -1,5 +1,5 @@
 import { memo, useState, type KeyboardEvent } from 'react';
-import type { Note as NoteModel, Point } from '../../domain/note';
+import { noteFontSize, type Note as NoteModel, type Point } from '../../domain/note';
 import { useMoveNote } from '../../hooks/useMoveNote';
 import { useResizeNote } from '../../hooks/useResizeNote';
 import { NoteText } from '../NoteText';
@@ -46,6 +46,7 @@ export const Note = memo(function Note({ note }: NoteProps) {
     height,
     zIndex: isDragging ? DRAGGING_Z_INDEX : note.zIndex,
     transform: transformFor(offset),
+    fontSize: noteFontSize({ width, height }),
   };
 
   const onKeyDown = (event: KeyboardEvent<HTMLElement>) => {

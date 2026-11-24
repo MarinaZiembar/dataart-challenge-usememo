@@ -1,7 +1,8 @@
 @reference '../../styles/global.css';
 
 .note-text {
-  @apply m-0 size-full overflow-auto text-note break-words whitespace-pre-wrap text-ink;
+  @apply m-0 size-full overflow-auto leading-normal font-medium break-words whitespace-pre-wrap text-ink;
+  font-size: inherit;
 }
 
 .note-text--empty {

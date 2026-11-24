@@ -45,6 +45,12 @@ export const DEFAULT_PATTERN: NotePattern = 'pink-stars';
 
 export const MAX_TEXT_LENGTH = 1000;
 
+export const NOTE_FONT_SIZE = {
+  min: 14,
+  default: 16,
+  max: 24,
+} as const;
+
 const CLICK_TOLERANCE = 4;
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
@@ -53,6 +59,11 @@ export const clampSize = ({ width, height }: Size): Size => ({
   width: Math.round(clamp(width, NOTE_SIZE.minWidth, NOTE_SIZE.max)),
   height: Math.round(clamp(height, NOTE_SIZE.minHeight, NOTE_SIZE.max)),
 });
+
+export const noteFontSize = ({ width, height }: Size) => {
+  const scale = Math.sqrt(width * height) / NOTE_SIZE.default;
+  return Math.round(clamp(NOTE_FONT_SIZE.default * scale, NOTE_FONT_SIZE.min, NOTE_FONT_SIZE.max));
+};
 
 export const clampToBounds = <T extends Rect>(rect: T, bounds: Size): T => ({
   ...rect,

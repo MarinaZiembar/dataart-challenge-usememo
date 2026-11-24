@@ -8,6 +8,7 @@ import {
   isOverlapping,
   resizeRect,
   nextZIndex,
+  noteFontSize,
   rectFromPoints,
   type Note,
 } from './note';
@@ -118,6 +119,24 @@ describe('note domain', () => {
     expect(isOverlapping({ x: 700, y: 550, width: 200, height: 200 }, trash)).toBe(true);
     expect(isOverlapping({ x: 100, y: 100, width: 200, height: 200 }, trash)).toBe(false);
     expect(isOverlapping({ x: 600, y: 600, width: 200, height: 200 }, trash)).toBe(false);
+  });
+
+  describe('noteFontSize', () => {
+    it('uses 16px for the default 200 × 200 note', () => {
+      expect(noteFontSize({ width: 200, height: 200 })).toBe(16);
+    });
+
+    it('grows with the note', () => {
+      expect(noteFontSize({ width: 260, height: 260 })).toBe(21);
+    });
+
+    it('never goes below 14px', () => {
+      expect(noteFontSize({ width: 100, height: 80 })).toBe(14);
+    });
+
+    it('never goes above 24px', () => {
+      expect(noteFontSize({ width: 600, height: 600 })).toBe(24);
+    });
   });
 
   it('detects a click when the pointer barely moves', () => {
