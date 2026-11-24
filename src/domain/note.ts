@@ -43,6 +43,8 @@ export const NOTE_SIZE = {
 
 export const DEFAULT_PATTERN: NotePattern = 'pink-stars';
 
+export const MAX_TEXT_LENGTH = 1000;
+
 const CLICK_TOLERANCE = 4;
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);

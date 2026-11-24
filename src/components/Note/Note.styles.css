@@ -12,6 +12,14 @@
   @apply cursor-grabbing shadow-note-lifted;
 }
 
+.note--editing {
+  @apply cursor-default;
+}
+
+.note--editing .note__paper {
+  @apply border-2 border-accent;
+}
+
 .note--over-trash {
   @apply opacity-50;
 }
@@ -22,10 +30,6 @@
 
 .note__paper {
   @apply absolute inset-[6.5%] overflow-hidden border border-paper-edge bg-paper p-3;
-}
-
-.note__text {
-  @apply m-0 text-note break-words whitespace-pre-wrap;
 }
 
 .note__resize {

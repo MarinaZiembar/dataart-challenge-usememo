@@ -280,4 +280,59 @@ describe('Note', () => {
       expect(useNotesStore.getState().notes).toEqual([]);
     });
   });
+
+  describe('editing text', () => {
+    it('opens the text field with a double-click and saves on blur', () => {
+      const { article } = renderOnBoard();
+
+      fireEvent.doubleClick(article);
+      const field = screen.getByRole('textbox', { name: 'Note text' });
+      fireEvent.change(field, { target: { value: 'Read the RFC' } });
+      fireEvent.blur(field);
+
+      expect(useNotesStore.getState().notes[0]?.text).toBe('Read the RFC');
+      expect(screen.queryByRole('textbox', { name: 'Note text' })).not.toBeInTheDocument();
+    });
+
+    it('opens the text field with Enter when the note is focused', () => {
+      const { article } = renderOnBoard();
+
+      article.focus();
+      fireEvent.keyDown(article, { key: 'Enter' });
+
+      const field = screen.getByRole('textbox', { name: 'Note text' });
+      expect(field).toHaveFocus();
+      expect(field).toHaveValue('Ship it before Friday!');
+      expect(article).toHaveClass('note--editing');
+    });
+
+    it('does not delete the note when erasing text', () => {
+      const { article } = renderOnBoard();
+
+      fireEvent.doubleClick(article);
+      fireEvent.keyDown(screen.getByRole('textbox', { name: 'Note text' }), { key: 'Backspace' });
+
+      expect(useNotesStore.getState().notes).toHaveLength(1);
+    });
+
+    it('does not start dragging from the text field', () => {
+      const { article } = renderOnBoard();
+
+      fireEvent.doubleClick(article);
+      const field = screen.getByRole('textbox', { name: 'Note text' });
+      fireEvent.pointerDown(field, { clientX: 100, clientY: 100, button: 0, pointerId: 1 });
+      fireEvent.pointerMove(field, { clientX: 200, clientY: 200, pointerId: 1 });
+
+      expect(article).not.toHaveClass('note--dragging');
+    });
+
+    it('keeps the washi tape on a simple click', () => {
+      const { article } = renderOnBoard();
+
+      fireEvent.pointerDown(article, { clientX: 100, clientY: 100, button: 0, pointerId: 1 });
+
+      expect(screen.getByTestId('washi-tape')).toBeInTheDocument();
+      expect(useNotesStore.getState().drag).toBeNull();
+    });
+  });
 });

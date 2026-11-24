@@ -15,6 +15,8 @@ interface Gesture {
   bounds: Size;
 }
 
+const isEditingText = () => document.activeElement instanceof HTMLTextAreaElement;
+
 const toLocal = (event: PointerEvent, origin: Point): Point => ({
   x: event.clientX - origin.x,
   y: event.clientY - origin.y,
@@ -44,7 +46,7 @@ export function useDrawNote() {
   }, [isDrawing]);
 
   const onPointerDown = (event: PointerEvent<HTMLElement>) => {
-    if (event.target !== event.currentTarget || event.button !== 0) return;
+    if (event.target !== event.currentTarget || event.button !== 0 || isEditingText()) return;
     const box = event.currentTarget.getBoundingClientRect();
     const origin = { x: box.left, y: box.top };
     const start = toLocal(event, origin);

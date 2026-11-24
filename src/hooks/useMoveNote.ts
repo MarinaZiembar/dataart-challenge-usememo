@@ -14,7 +14,11 @@ interface Gesture {
   start: Point;
   board: Rect;
   trash: Rect | null;
+  started: boolean;
 }
+
+const isFromTextField = (event: PointerEvent) =>
+  event.target instanceof HTMLElement && event.target.closest('textarea') !== null;
 
 export function useMoveNote(note: Note) {
   const isOverTrash = useNotesStore((state) => state.drag?.id === note.id && state.drag.overTrash);
@@ -57,31 +61,34 @@ export function useMoveNote(note: Note) {
   };
 
   const onPointerDown = (event: PointerEvent<HTMLElement>) => {
-    if (event.button !== 0) return;
+    if (event.button !== 0 || isFromTextField(event)) return;
     event.currentTarget.setPointerCapture(event.pointerId);
     gesture.current = {
       start: { x: event.clientX, y: event.clientY },
       board: boardBounds(event.currentTarget),
       trash: trashZoneRect(),
+      started: false,
     };
-    setOffset({ x: 0, y: 0 });
-    useNotesStore.getState().startDrag(note.id);
   };
 
   const onPointerMove = (event: PointerEvent<HTMLElement>) => {
-    if (!gesture.current) return;
-    const position = positionAt(event, gesture.current);
+    const current = gesture.current;
+    if (!current) return;
+    if (!current.started && isClick(current.start, { x: event.clientX, y: event.clientY })) return;
+    if (!current.started) useNotesStore.getState().startDrag(note.id);
+    current.started = true;
+    const position = positionAt(event, current);
     setOffset({ x: position.x - note.x, y: position.y - note.y });
-    useNotesStore.getState().setOverTrash(overTrashAt(position, gesture.current));
+    useNotesStore.getState().setOverTrash(overTrashAt(position, current));
   };
 
   const onPointerUp = (event: PointerEvent<HTMLElement>) => {
-    if (!gesture.current) return;
+    const current = gesture.current;
+    if (!current) return;
     const { removeNote, moveNote } = useNotesStore.getState();
-    const position = positionAt(event, gesture.current);
-    const hasMoved = !isClick(gesture.current.start, { x: event.clientX, y: event.clientY });
-    if (overTrashAt(position, gesture.current)) removeNote(note.id);
-    else if (hasMoved) moveNote(note.id, position, gesture.current.board);
+    const position = positionAt(event, current);
+    if (current.started && overTrashAt(position, current)) removeNote(note.id);
+    else if (current.started) moveNote(note.id, position, current.board);
     stop();
   };
 

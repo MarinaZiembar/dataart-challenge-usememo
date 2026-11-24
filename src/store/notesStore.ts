@@ -24,6 +24,7 @@ interface NotesState {
   resizeNote: (id: NoteId, size: Size) => void;
   moveNote: (id: NoteId, position: Point, bounds: Size) => void;
   removeNote: (id: NoteId) => void;
+  updateText: (id: NoteId, text: string) => void;
   startDrag: (id: NoteId) => void;
   setOverTrash: (overTrash: boolean) => void;
   endDrag: () => void;
@@ -55,6 +56,14 @@ export const useNotesStore = create<NotesState>()((set) => ({
       ),
     })),
   removeNote: (id) => set((state) => ({ notes: state.notes.filter((note) => note.id !== id) })),
+  updateText: (id, text) =>
+    set((state) => ({
+      notes: state.notes.map((note) =>
+        note.id === id && note.text !== text
+          ? { ...note, text, updatedAt: new Date().toISOString() }
+          : note,
+      ),
+    })),
   startDrag: (id) => set({ drag: { id, overTrash: false } }),
   setOverTrash: (overTrash) =>
     set((state) =>

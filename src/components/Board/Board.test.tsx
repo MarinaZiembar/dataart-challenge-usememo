@@ -116,4 +116,16 @@ describe('Board', () => {
 
     expect(useNotesStore.getState().notes).toHaveLength(1);
   });
+
+  it('does not create a note when clicking outside to finish editing', () => {
+    const board = renderBoard();
+    const field = document.createElement('textarea');
+    document.body.appendChild(field);
+    field.focus();
+
+    draw(board, [300, 300], [300, 300]);
+
+    expect(useNotesStore.getState().notes).toHaveLength(0);
+    field.remove();
+  });
 });
