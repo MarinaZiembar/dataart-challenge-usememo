@@ -33,6 +33,23 @@ export class NoteComponent {
     return { x: box.x + GRAB_OFFSET.x, y: box.y + GRAB_OFFSET.y };
   }
 
+  private async moveInside(target: Point) {
+    const viewport = this.page.viewportSize();
+    const inside =
+      viewport &&
+      target.x >= 0 &&
+      target.y >= 0 &&
+      target.x < viewport.width &&
+      target.y < viewport.height;
+    if (!inside) {
+      throw new Error(
+        `The pointer target (${target.x}, ${target.y}) is outside the viewport: ` +
+          'browsers like Firefox drop pointer events there',
+      );
+    }
+    await this.page.mouse.move(target.x, target.y, { steps: STEPS });
+  }
+
   async press() {
     const start = await this.grabPoint();
     await this.page.mouse.move(start.x, start.y);
@@ -42,7 +59,7 @@ export class NoteComponent {
 
   async startDragBy(dx: number, dy: number) {
     const start = await this.press();
-    await this.page.mouse.move(start.x + dx, start.y + dy, { steps: STEPS });
+    await this.moveInside({ x: start.x + dx, y: start.y + dy });
   }
 
   async dragBy(dx: number, dy: number) {
@@ -57,7 +74,7 @@ export class NoteComponent {
     const start = { x: handle.x + handle.width / 2, y: handle.y + handle.height / 2 };
     await this.page.mouse.move(start.x, start.y);
     await this.page.mouse.down();
-    await this.page.mouse.move(start.x + dx, start.y + dy, { steps: STEPS });
+    await this.moveInside({ x: start.x + dx, y: start.y + dy });
     await this.page.mouse.up();
   }
 

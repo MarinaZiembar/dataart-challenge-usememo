@@ -40,8 +40,9 @@ test.describe('Notes on the board', () => {
     await boardPage.open([seedNote({ id: 'a', text: 'Edge', x: 200, y: 160 })]);
     const note = boardPage.note('Edge');
 
-    await note.dragBy(-600, -600);
+    await note.dragBy(-220, -195);
 
+    await expect(note.root).not.toHaveClass(/note--dragging/);
     await expect(note.root).toHaveCSS('left', '0px');
     await expect(note.root).toHaveCSS('top', '0px');
   });
@@ -56,12 +57,13 @@ test.describe('Notes on the board', () => {
     await expect(note.root).toHaveCSS('height', '400px');
     await expect(note.root).toHaveCSS('font-size', '24px');
 
-    await note.resizeBy(-600, -600);
+    await note.resizeBy(-400, -400);
     await expect(note.root).toHaveCSS('width', '100px');
     await expect(note.root).toHaveCSS('height', '80px');
     await expect(note.root).toHaveCSS('font-size', '14px');
 
-    await note.resizeBy(900, 900);
+    await note.resizeBy(560, 560);
+    await expect(note.root).not.toHaveClass(/note--resizing/);
     await expect(note.root).toHaveCSS('width', '600px');
     await expect(note.root).toHaveCSS('height', '600px');
   });
