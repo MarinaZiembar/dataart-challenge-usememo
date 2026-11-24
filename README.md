@@ -80,7 +80,7 @@ src/
 ├── constants/            # Product rules, one file per subject
 │   ├── notes.ts          # Note sizes, text size, patterns, limits
 │   └── storage.ts        # Storage key and save delay
-├── hooks/                # Gesture hooks (draw, move, resize)
+├── hooks/                # Gesture hooks (draw, move, resize) and popover dismiss
 ├── services/             # Code that talks to the outside world
 │   ├── __tests__/
 │   └── notesStorage.ts   # Load and save notes in localStorage
@@ -98,10 +98,12 @@ src/
     ├── __tests__/
     │   ├── board.test.ts
     │   ├── geometry.test.ts
-    │   └── notes.test.ts
+    │   ├── notes.test.ts
+    │   └── patterns.test.ts
     ├── board.ts          # Board and trash zone rects
     ├── geometry.ts       # clamp, rect from points, click, overlap
-    └── notes.ts          # Create, fit, resize, font size, layers, isNote
+    ├── notes.ts          # Create, fit, resize, font size, layers, isNote
+    └── patterns.ts       # Star and flower points, pattern view box
 ```
 
 ## Conventions

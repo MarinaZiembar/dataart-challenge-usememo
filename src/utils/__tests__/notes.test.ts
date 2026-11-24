@@ -137,7 +137,7 @@ describe('notes utils', () => {
 
   it('creates a note with the given rect and defaults', () => {
     const now = new Date('2026-11-24T12:00:00.000Z');
-    const note = createNote({ x: 10, y: 20, width: 200, height: 150 }, 4, now);
+    const note = createNote({ x: 10, y: 20, width: 200, height: 150 }, 4, 'pink-stars', now);
 
     expect(note).toMatchObject({
       x: 10,

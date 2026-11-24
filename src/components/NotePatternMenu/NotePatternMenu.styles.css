@@ -1,0 +1,19 @@
+@reference '../../styles/global.css';
+
+.note-pattern-menu {
+  @apply absolute -top-2.5 -right-2.5 z-10 size-6 cursor-pointer overflow-hidden rounded-full border-2 border-white p-0 opacity-0 shadow-dock transition-opacity focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
+}
+
+.note:hover .note-pattern-menu,
+.note:focus-visible .note-pattern-menu,
+.note-pattern-menu--open {
+  @apply opacity-100;
+}
+
+.note-pattern-menu__picker--right {
+  @apply top-0 left-[calc(100%+16px)];
+}
+
+.note-pattern-menu__picker--left {
+  @apply top-0 right-[calc(100%+16px)];
+}

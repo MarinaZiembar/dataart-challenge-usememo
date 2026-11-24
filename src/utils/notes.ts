@@ -59,11 +59,16 @@ export const bringToFront = (notes: Note[], id: NoteId): Note[] => {
 
 export const createId = () => crypto.randomUUID() as NoteId;
 
-export const createNote = (rect: Rect, zIndex: number, now = new Date()): Note => ({
+export const createNote = (
+  rect: Rect,
+  zIndex: number,
+  pattern: NotePattern = DEFAULT_PATTERN,
+  now = new Date(),
+): Note => ({
   ...rect,
   id: createId(),
   text: '',
-  pattern: DEFAULT_PATTERN,
+  pattern,
   zIndex,
   createdAt: now.toISOString(),
   updatedAt: now.toISOString(),

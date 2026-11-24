@@ -1,0 +1,25 @@
+@reference '../../styles/global.css';
+
+.pattern-picker {
+  @apply absolute z-20 flex w-[234px] cursor-default flex-col gap-3 rounded-3xl border border-line bg-surface p-4 shadow-dock;
+}
+
+.pattern-picker__title {
+  @apply text-label text-ink;
+}
+
+.pattern-picker__swatches {
+  @apply grid grid-cols-4 gap-2;
+}
+
+.pattern-picker__swatch {
+  @apply relative size-11 cursor-pointer overflow-hidden rounded-md border-0 p-0 transition-transform hover:-translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent;
+}
+
+.pattern-picker__swatch[aria-checked='true']::after {
+  @apply absolute inset-0 rounded-md border-3 border-ink content-[''];
+}
+
+.pattern-picker__label {
+  @apply text-caption text-muted;
+}
