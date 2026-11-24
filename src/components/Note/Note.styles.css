@@ -1,0 +1,17 @@
+@reference '../../styles/global.css';
+
+.note {
+  @apply absolute bg-pattern-bubblegum shadow-note-rest;
+}
+
+.note__tape {
+  @apply absolute -top-2.5 left-1/2 h-5 w-[30%] -translate-x-1/2 -rotate-4 bg-tape/90;
+}
+
+.note__paper {
+  @apply absolute inset-[6.5%] overflow-hidden border border-paper-edge bg-paper p-3;
+}
+
+.note__text {
+  @apply m-0 text-note break-words whitespace-pre-wrap;
+}
