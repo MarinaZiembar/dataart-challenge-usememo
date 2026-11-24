@@ -1,4 +1,4 @@
-import type { Rect } from '../domain/note';
+import type { Rect } from '../types/geometry';
 
 const toRect = (box: DOMRect): Rect => ({
   x: box.left,

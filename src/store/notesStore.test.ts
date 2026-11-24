@@ -1,5 +1,5 @@
 import { useNotesStore } from './notesStore';
-import type { Note, NoteId } from '../domain/note';
+import type { Note, NoteId } from '../types/notes';
 
 const note: Note = {
   id: 'note-1' as NoteId,

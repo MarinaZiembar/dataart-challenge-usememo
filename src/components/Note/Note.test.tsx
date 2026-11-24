@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { Note } from './Note';
 import { useNotesStore } from '../../store/notesStore';
-import type { Note as NoteModel, NoteId } from '../../domain/note';
+import type { Note as NoteModel, NoteId } from '../../types/notes';
 
 const note: NoteModel = {
   id: 'note-1' as NoteId,

@@ -1,16 +1,8 @@
 import { create } from 'zustand';
-import {
-  bringToFront,
-  clampToBounds,
-  createNote,
-  fitRect,
-  nextZIndex,
-  type Note,
-  type NoteId,
-  type Point,
-  type Rect,
-  type Size,
-} from '../domain/note';
+import type { Point, Rect, Size } from '../types/geometry';
+import type { Note, NoteId } from '../types/notes';
+import { clampToBounds } from '../utils/geometry';
+import { bringToFront, createNote, fitRect, nextZIndex } from '../utils/notes';
 
 interface Drag {
   id: NoteId;

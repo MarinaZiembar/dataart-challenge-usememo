@@ -1,7 +1,7 @@
 import { act, render, screen } from '@testing-library/react';
 import { TrashZone } from './TrashZone';
 import { useNotesStore } from '../../store/notesStore';
-import type { NoteId } from '../../domain/note';
+import type { NoteId } from '../../types/notes';
 
 describe('TrashZone', () => {
   beforeEach(() => {

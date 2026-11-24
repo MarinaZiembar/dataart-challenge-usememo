@@ -1,4 +1,4 @@
-import { NOTE_SIZE } from '../../domain/note';
+import { NOTE_SIZE } from '../../constants/notes';
 import { useNotesStore } from '../../store/notesStore';
 import './Dock.styles.css';
 

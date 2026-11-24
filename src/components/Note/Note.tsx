@@ -1,5 +1,7 @@
 import { memo, useState, type KeyboardEvent } from 'react';
-import { noteFontSize, type Note as NoteModel, type Point } from '../../domain/note';
+import type { Point } from '../../types/geometry';
+import type { Note as NoteModel } from '../../types/notes';
+import { noteFontSize } from '../../utils/notes';
 import { useMoveNote } from '../../hooks/useMoveNote';
 import { useResizeNote } from '../../hooks/useResizeNote';
 import { NoteText } from '../NoteText';

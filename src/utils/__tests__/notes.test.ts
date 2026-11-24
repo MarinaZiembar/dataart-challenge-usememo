@@ -1,41 +1,16 @@
+import type { Note, NoteId } from '../../types/notes';
 import {
   bringToFront,
   clampSize,
-  clampToBounds,
   createNote,
   defaultRectAt,
   fitRect,
-  isClick,
-  isOverlapping,
-  resizeRect,
   nextZIndex,
   noteFontSize,
-  rectFromPoints,
-  type Note,
-  type NoteId,
-} from './note';
+  resizeRect,
+} from '../notes';
 
-describe('note domain', () => {
-  describe('rectFromPoints', () => {
-    it('builds a rect from top-left to bottom-right', () => {
-      expect(rectFromPoints({ x: 10, y: 20 }, { x: 110, y: 220 })).toEqual({
-        x: 10,
-        y: 20,
-        width: 100,
-        height: 200,
-      });
-    });
-
-    it('builds the same rect when drawing upwards to the left', () => {
-      expect(rectFromPoints({ x: 110, y: 220 }, { x: 10, y: 20 })).toEqual({
-        x: 10,
-        y: 20,
-        width: 100,
-        height: 200,
-      });
-    });
-  });
-
+describe('notes utils', () => {
   describe('clampSize', () => {
     it('raises a size below the minimum', () => {
       expect(clampSize({ width: 30, height: 10 })).toEqual({ width: 100, height: 80 });
@@ -103,24 +78,8 @@ describe('note domain', () => {
     });
   });
 
-  it('clamps a moved note and keeps its other fields', () => {
-    const moved = clampToBounds(
-      { ...createNote({ x: 0, y: 0, width: 200, height: 200 }, 1), x: -30, y: 900 },
-      {
-        width: 1000,
-        height: 800,
-      },
-    );
-
-    expect(moved).toMatchObject({ x: 0, y: 600, zIndex: 1, text: '' });
-  });
-
-  it('detects overlapping rects', () => {
-    const trash = { x: 800, y: 600, width: 160, height: 120 };
-
-    expect(isOverlapping({ x: 700, y: 550, width: 200, height: 200 }, trash)).toBe(true);
-    expect(isOverlapping({ x: 100, y: 100, width: 200, height: 200 }, trash)).toBe(false);
-    expect(isOverlapping({ x: 600, y: 600, width: 200, height: 200 }, trash)).toBe(false);
+  it('centers the default note on a point', () => {
+    expect(defaultRectAt({ x: 300, y: 300 })).toEqual({ x: 200, y: 200, width: 200, height: 200 });
   });
 
   describe('noteFontSize', () => {
@@ -141,36 +100,9 @@ describe('note domain', () => {
     });
   });
 
-  it('detects a click when the pointer barely moves', () => {
-    expect(isClick({ x: 100, y: 100 }, { x: 102, y: 101 })).toBe(true);
-    expect(isClick({ x: 100, y: 100 }, { x: 140, y: 101 })).toBe(false);
-  });
-
-  it('centers the default note on a point', () => {
-    expect(defaultRectAt({ x: 300, y: 300 })).toEqual({ x: 200, y: 200, width: 200, height: 200 });
-  });
-
   it('returns the next z-index', () => {
     expect(nextZIndex([])).toBe(1);
     expect(nextZIndex([{ zIndex: 3 }, { zIndex: 7 }] as Note[])).toBe(8);
-  });
-
-  it('creates a note with the given rect and defaults', () => {
-    const now = new Date('2026-11-24T12:00:00.000Z');
-    const note = createNote({ x: 10, y: 20, width: 200, height: 150 }, 4, now);
-
-    expect(note).toMatchObject({
-      x: 10,
-      y: 20,
-      width: 200,
-      height: 150,
-      text: '',
-      pattern: 'pink-stars',
-      zIndex: 4,
-      createdAt: now.toISOString(),
-      updatedAt: now.toISOString(),
-    });
-    expect(note.id).toEqual(expect.any(String));
   });
 
   describe('bringToFront', () => {
@@ -200,5 +132,23 @@ describe('note domain', () => {
 
       expect(notes.map((note) => note.zIndex)).toEqual([3, 1, 2]);
     });
+  });
+
+  it('creates a note with the given rect and defaults', () => {
+    const now = new Date('2026-11-24T12:00:00.000Z');
+    const note = createNote({ x: 10, y: 20, width: 200, height: 150 }, 4, now);
+
+    expect(note).toMatchObject({
+      x: 10,
+      y: 20,
+      width: 200,
+      height: 150,
+      text: '',
+      pattern: 'pink-stars',
+      zIndex: 4,
+      createdAt: now.toISOString(),
+      updatedAt: now.toISOString(),
+    });
+    expect(note.id).toEqual(expect.any(String));
   });
 });
