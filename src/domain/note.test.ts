@@ -1,5 +1,6 @@
 import {
   clampSize,
+  clampToBounds,
   createNote,
   defaultRectAt,
   fitRect,
@@ -96,6 +97,18 @@ describe('note domain', () => {
         resizeRect({ ...rect, x: 700, y: 600 }, { width: 500, height: 500 }, bounds),
       ).toMatchObject({ width: 300, height: 200 });
     });
+  });
+
+  it('clamps a moved note and keeps its other fields', () => {
+    const moved = clampToBounds(
+      { ...createNote({ x: 0, y: 0, width: 200, height: 200 }, 1), x: -30, y: 900 },
+      {
+        width: 1000,
+        height: 800,
+      },
+    );
+
+    expect(moved).toMatchObject({ x: 0, y: 600, zIndex: 1, text: '' });
   });
 
   it('detects a click when the pointer barely moves', () => {

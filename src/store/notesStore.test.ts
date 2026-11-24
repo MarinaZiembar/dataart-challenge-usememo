@@ -72,4 +72,14 @@ describe('notesStore', () => {
     expect(resized?.updatedAt).not.toBe(note.updatedAt);
     expect(untouched).toEqual(other);
   });
+
+  it('moves a note and keeps it inside the board', () => {
+    useNotesStore.getState().setNotes([note]);
+
+    useNotesStore.getState().moveNote(note.id, { x: 300, y: 250 }, bounds);
+    expect(useNotesStore.getState().notes[0]).toMatchObject({ x: 300, y: 250 });
+
+    useNotesStore.getState().moveNote(note.id, { x: 2000, y: -50 }, bounds);
+    expect(useNotesStore.getState().notes[0]).toMatchObject({ x: 800, y: 0 });
+  });
 });

@@ -1,7 +1,11 @@
 @reference '../../styles/global.css';
 
 .note {
-  @apply absolute bg-pattern-bubblegum shadow-note-rest;
+  @apply absolute cursor-grab touch-none bg-pattern-bubblegum shadow-note-rest transition-shadow duration-150 ease-out;
+}
+
+.note--dragging {
+  @apply cursor-grabbing shadow-note-lifted;
 }
 
 .note__tape {

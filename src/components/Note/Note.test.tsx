@@ -134,4 +134,82 @@ describe('Note', () => {
       expect(article).toHaveStyle({ left: '40px', top: '60px' });
     });
   });
+
+  describe('moving', () => {
+    const move = (article: HTMLElement, by: [number, number]) => {
+      fireEvent.pointerDown(article, { clientX: 100, clientY: 100, button: 0, pointerId: 1 });
+      fireEvent.pointerMove(article, { clientX: 100 + by[0], clientY: 100 + by[1], pointerId: 1 });
+    };
+
+    it('follows the pointer while dragging', () => {
+      const { article } = renderOnBoard();
+
+      move(article, [60, 40]);
+
+      expect(article).toHaveStyle({ transform: 'translate3d(60px, 40px, 0) rotate(-2deg)' });
+      expect(article).toHaveClass('note--dragging');
+    });
+
+    it('saves the new position on release', () => {
+      const { article } = renderOnBoard();
+
+      move(article, [60, 40]);
+      fireEvent.pointerUp(article, { clientX: 160, clientY: 140, pointerId: 1 });
+
+      expect(useNotesStore.getState().notes[0]).toMatchObject({ x: 100, y: 100 });
+    });
+
+    it('keeps the note inside the board', () => {
+      const { article } = renderOnBoard();
+
+      move(article, [5000, 5000]);
+      fireEvent.pointerUp(article, { clientX: 5100, clientY: 5100, pointerId: 1 });
+
+      expect(useNotesStore.getState().notes[0]).toMatchObject({ x: 760, y: 620 });
+    });
+
+    it('hides the resize handle while dragging', () => {
+      const { article } = renderOnBoard();
+
+      move(article, [30, 30]);
+
+      expect(screen.queryByTitle('Resize')).not.toBeInTheDocument();
+    });
+
+    it('peels off the washi tape while dragging', () => {
+      const { article } = renderOnBoard();
+
+      move(article, [30, 30]);
+
+      expect(screen.queryByTestId('washi-tape')).not.toBeInTheDocument();
+    });
+
+    it('returns to its place with Escape', () => {
+      const { article } = renderOnBoard();
+
+      move(article, [60, 40]);
+      fireEvent.keyDown(window, { key: 'Escape' });
+      fireEvent.pointerUp(article, { clientX: 160, clientY: 140, pointerId: 1 });
+
+      expect(article).not.toHaveClass('note--dragging');
+      expect(useNotesStore.getState().notes[0]).toMatchObject({ x: 40, y: 60 });
+    });
+
+    it('does not save anything on a simple click', () => {
+      const { article } = renderOnBoard();
+
+      fireEvent.pointerDown(article, { clientX: 100, clientY: 100, button: 0, pointerId: 1 });
+      fireEvent.pointerUp(article, { clientX: 101, clientY: 100, pointerId: 1 });
+
+      expect(useNotesStore.getState().notes[0]).toEqual(note);
+    });
+
+    it('does not start moving from the resize handle', () => {
+      const { article, handle } = renderOnBoard();
+
+      fireEvent.pointerDown(handle, { clientX: 300, clientY: 300, button: 0, pointerId: 1 });
+
+      expect(article).not.toHaveClass('note--dragging');
+    });
+  });
 });
