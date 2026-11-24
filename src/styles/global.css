@@ -1,29 +1,14 @@
+@import 'tailwindcss';
 @import './tokens.css';
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+@layer base {
+  html,
+  body,
+  #root {
+    @apply m-0 h-full;
+  }
 
-html,
-body,
-#root {
-  height: 100%;
-  margin: 0;
-}
-
-body {
-  min-width: 1024px;
-  min-height: 768px;
-  font: var(--font-body);
-  color: var(--color-text-primary);
-  background-color: var(--color-board);
-  -webkit-font-smoothing: antialiased;
-}
-
-button,
-input,
-textarea {
-  font: inherit;
+  body {
+    @apply min-h-[768px] min-w-[1024px] bg-board font-sans text-body text-ink antialiased;
+  }
 }

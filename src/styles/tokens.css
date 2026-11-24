@@ -1,14 +1,17 @@
-:root {
+@theme static {
+  --font-sans: 'Poppins', system-ui, sans-serif;
+
   --color-board: #fbf1e3;
   --color-paper: #faf9f6;
   --color-paper-edge: #e4e1da;
   --color-surface: #fffdf8;
   --color-line: #e9ddcb;
-  --color-text-primary: #2b1e2f;
-  --color-text-secondary: #6e5a72;
-  --color-text-inverse: #fbf1e3;
-  --color-accent-primary: #e8462f;
-  --color-accent-danger: #f26b2a;
+  --color-dot: #e6d9c4;
+  --color-ink: #2b1e2f;
+  --color-muted: #6e5a72;
+  --color-inverse: #fbf1e3;
+  --color-accent: #e8462f;
+  --color-danger: #f26b2a;
   --color-tape: #e3cc94;
   --color-pattern-lavender: #dccbf0;
   --color-pattern-lilac: #b08ee0;
@@ -16,31 +19,30 @@
   --color-pattern-pink: #f27a9b;
   --color-pattern-sunny: #f7be1e;
   --color-pattern-sage: #5f7a50;
-  --color-dot: #e6d9c4;
 
-  --space-4: 4px;
-  --space-8: 8px;
-  --space-12: 12px;
-  --space-16: 16px;
-  --space-24: 24px;
-  --space-32: 32px;
-  --space-48: 48px;
-  --space-64: 64px;
-
-  --radius-none: 0;
-  --radius-md: 12px;
-  --radius-lg: 24px;
-  --radius-pill: 999px;
-
-  --font-family: 'Poppins', system-ui, sans-serif;
-  --font-display: 700 64px/1.1 var(--font-family);
-  --font-h1: 700 40px/1.2 var(--font-family);
-  --font-h2: 600 28px/1.3 var(--font-family);
-  --font-h3: 600 20px/1.4 var(--font-family);
-  --font-body: 400 16px/1.5 var(--font-family);
-  --font-note: 500 16px/1.5 var(--font-family);
-  --font-label: 500 14px/1.4 var(--font-family);
-  --font-caption: 500 12px/1.4 var(--font-family);
+  --text-display: 64px;
+  --text-display--line-height: 1.1;
+  --text-display--font-weight: 700;
+  --text-h1: 40px;
+  --text-h1--line-height: 1.2;
+  --text-h1--font-weight: 700;
+  --text-h2: 28px;
+  --text-h2--line-height: 1.3;
+  --text-h2--font-weight: 600;
+  --text-h3: 20px;
+  --text-h3--line-height: 1.4;
+  --text-h3--font-weight: 600;
+  --text-body: 16px;
+  --text-body--line-height: 1.5;
+  --text-note: 16px;
+  --text-note--line-height: 1.5;
+  --text-note--font-weight: 500;
+  --text-label: 14px;
+  --text-label--line-height: 1.4;
+  --text-label--font-weight: 500;
+  --text-caption: 12px;
+  --text-caption--line-height: 1.4;
+  --text-caption--font-weight: 500;
 
   --shadow-note-rest: 0 8px 18px -4px rgb(110 77 51 / 18%);
   --shadow-note-lifted: 0 22px 40px -4px rgb(110 77 51 / 30%);

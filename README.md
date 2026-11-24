@@ -22,7 +22,7 @@ A single-page sticky notes board built with **React + TypeScript** for the DataA
 - React 19 + TypeScript (strict)
 - Vite
 - Zustand for state management
-- Plain CSS with design tokens (CSS custom properties from Figma variables)
+- Tailwind CSS v4 with the Figma design tokens as theme variables (`src/styles/tokens.css`)
 - Jest + React Testing Library (unit & integration), Playwright (e2e)
 - ESLint, Prettier, Husky + lint-staged
 
@@ -79,13 +79,14 @@ src/
 │       └── Header.test.tsx
 ├── domain/               # Types and constants (Note, patterns, sizes)
 ├── store/                # Zustand stores
-├── styles/               # Design tokens and global styles
+├── styles/               # Tailwind theme tokens and global styles
 └── test/                 # Jest setup
 ```
 
 ## Conventions
 
 - **Components:** one folder per component with `index.ts`, `Component.tsx`, `Component.styles.css` and `Component.test.tsx`.
+- **Styles:** components use short semantic class names (`header__logo`); each `Component.styles.css` builds them with Tailwind `@apply` (`@reference '../../styles/global.css'`).
 - **Code:** simple and readable, no code comments, cyclomatic complexity ≤ 10 (enforced by ESLint).
 - **Formatting:** Prettier (`.prettierrc`); VS Code formats on save with the recommended extensions.
 - **Commits:** [Conventional Commits](https://www.conventionalcommits.org/) with the Jira key, e.g. `feat(DCU-7): create a note at a given position`.

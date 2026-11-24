@@ -1,26 +1,17 @@
+@reference '../../styles/global.css';
+
 .board {
-  position: absolute;
-  inset: 0;
-  background-color: var(--color-board);
-  background-image: radial-gradient(var(--color-dot) 1.2px, transparent 1.2px);
-  background-size: 24px 24px;
+  @apply absolute inset-0 bg-board bg-[radial-gradient(var(--color-dot)_1.2px,transparent_1.2px)] bg-size-[24px_24px];
 }
 
 .board__empty {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center;
 }
 
 .board__empty-title {
-  margin: 0 0 var(--space-12);
-  font: var(--font-h1);
+  @apply m-0 mb-3 text-h1;
 }
 
 .board__empty-text {
-  margin: 0;
-  font: var(--font-body);
-  color: var(--color-text-secondary);
+  @apply m-0 text-body text-muted;
 }
