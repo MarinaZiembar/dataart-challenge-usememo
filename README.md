@@ -10,12 +10,13 @@ A single-page sticky notes board built with **React + TypeScript** for the DataA
 
 | Resource              | Link                                                                                                           |
 | --------------------- | -------------------------------------------------------------------------------------------------------------- |
-| Live demo (Vercel)    | _Coming soon — deployed from `main`_                                                                           |
+| Live demo (Vercel)    | [usememo-three.vercel.app](https://usememo-three.vercel.app) — deployed from `main`                            |
 | Figma                 | [DataArt Challenge - useMemo](https://www.figma.com/design/pVCvK8DkzvEhO6kNmw5EnQ/DataArt-Challenge---useMemo) |
 | Jira board (Sprint 1) | [DCU board](https://marinaziembar-team.atlassian.net/jira/software/projects/DCU/boards/2)                      |
 | PRD                   | [docs/PRD.md](docs/PRD.md) · [DCU-2 in Jira](https://marinaziembar-team.atlassian.net/browse/DCU-2)            |
 | RFC                   | [docs/RFC.md](docs/RFC.md) · [DCU-1 in Jira](https://marinaziembar-team.atlassian.net/browse/DCU-1)            |
 | Architecture          | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)                                                                   |
+| Changelog             | [CHANGELOG.md](CHANGELOG.md)                                                                                   |
 
 ## Features
 
