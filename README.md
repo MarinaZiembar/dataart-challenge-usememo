@@ -13,8 +13,8 @@ A single-page sticky notes board built with **React + TypeScript** for the DataA
 | Live demo (Vercel)    | _Coming soon — deployed from `main`_                                                                           |
 | Figma                 | [DataArt Challenge - useMemo](https://www.figma.com/design/pVCvK8DkzvEhO6kNmw5EnQ/DataArt-Challenge---useMemo) |
 | Jira board (Sprint 1) | [DCU board](https://marinaziembar-team.atlassian.net/jira/software/projects/DCU/boards/2)                      |
-| PRD                   | [DCU-2 · Product requirements](https://marinaziembar-team.atlassian.net/browse/DCU-2)                          |
-| RFC                   | [DCU-1 · Technical architecture](https://marinaziembar-team.atlassian.net/browse/DCU-1)                        |
+| PRD                   | [docs/PRD.md](docs/PRD.md) · [DCU-2 in Jira](https://marinaziembar-team.atlassian.net/browse/DCU-2)            |
+| RFC                   | [docs/RFC.md](docs/RFC.md) · [DCU-1 in Jira](https://marinaziembar-team.atlassian.net/browse/DCU-1)            |
 | Architecture          | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)                                                                   |
 
 ## Features
@@ -129,6 +129,8 @@ e2e/
 
 docs/
 ├── ARCHITECTURE.md       # Architecture description
+├── PRD.md                # Product requirements (copy of DCU-2)
+├── RFC.md                # Technical architecture RFC (copy of DCU-1)
 └── cover.png             # README cover
 
 src/
