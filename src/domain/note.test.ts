@@ -1,4 +1,5 @@
 import {
+  bringToFront,
   clampSize,
   clampToBounds,
   createNote,
@@ -11,6 +12,7 @@ import {
   noteFontSize,
   rectFromPoints,
   type Note,
+  type NoteId,
 } from './note';
 
 describe('note domain', () => {
@@ -169,5 +171,34 @@ describe('note domain', () => {
       updatedAt: now.toISOString(),
     });
     expect(note.id).toEqual(expect.any(String));
+  });
+
+  describe('bringToFront', () => {
+    const stack = (zIndexes: number[]) =>
+      zIndexes.map((zIndex, index) => ({ id: `note-${index}` as NoteId, zIndex }) as Note);
+
+    it('puts the note above all the others', () => {
+      const notes = bringToFront(stack([1, 2, 3]), 'note-0' as NoteId);
+
+      expect(notes.map((note) => note.zIndex)).toEqual([4, 2, 3]);
+    });
+
+    it('returns the same list when the note is already on top', () => {
+      const notes = stack([1, 2, 3]);
+
+      expect(bringToFront(notes, 'note-2' as NoteId)).toBe(notes);
+    });
+
+    it('returns the same list for an unknown note', () => {
+      const notes = stack([1, 2]);
+
+      expect(bringToFront(notes, 'missing' as NoteId)).toBe(notes);
+    });
+
+    it('renumbers the layers when they grow too much', () => {
+      const notes = bringToFront(stack([998, 999, 1000]), 'note-0' as NoteId);
+
+      expect(notes.map((note) => note.zIndex)).toEqual([3, 1, 2]);
+    });
   });
 });

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import {
+  bringToFront,
   clampToBounds,
   createNote,
   fitRect,
@@ -25,6 +26,7 @@ interface NotesState {
   moveNote: (id: NoteId, position: Point, bounds: Size) => void;
   removeNote: (id: NoteId) => void;
   updateText: (id: NoteId, text: string) => void;
+  bringToFront: (id: NoteId) => void;
   startDrag: (id: NoteId) => void;
   setOverTrash: (overTrash: boolean) => void;
   endDrag: () => void;
@@ -64,6 +66,11 @@ export const useNotesStore = create<NotesState>()((set) => ({
           : note,
       ),
     })),
+  bringToFront: (id) =>
+    set((state) => {
+      const notes = bringToFront(state.notes, id);
+      return notes === state.notes ? state : { notes };
+    }),
   startDrag: (id) => set({ drag: { id, overTrash: false } }),
   setOverTrash: (overTrash) =>
     set((state) =>

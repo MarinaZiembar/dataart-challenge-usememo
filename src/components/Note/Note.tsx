@@ -72,6 +72,8 @@ export const Note = memo(function Note({ note }: NoteProps) {
       data-pattern={note.pattern}
       onKeyDown={onKeyDown}
       onDoubleClick={() => setIsEditing(true)}
+      onPointerDownCapture={() => useNotesStore.getState().bringToFront(note.id)}
+      onFocus={() => useNotesStore.getState().bringToFront(note.id)}
       {...bodyProps}
     >
       {!isDragging && !isResizing && (

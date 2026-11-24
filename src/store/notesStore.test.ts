@@ -127,4 +127,22 @@ describe('notesStore', () => {
 
     expect(useNotesStore.getState().notes[0]).toBe(note);
   });
+
+  it('brings a note to the front', () => {
+    const other = { ...note, id: 'note-2' as NoteId, zIndex: 2 };
+    useNotesStore.getState().setNotes([note, other]);
+
+    useNotesStore.getState().bringToFront(note.id);
+
+    expect(useNotesStore.getState().notes[0]?.zIndex).toBe(3);
+  });
+
+  it('keeps the same state when the note is already in front', () => {
+    useNotesStore.getState().setNotes([note]);
+    const before = useNotesStore.getState().notes;
+
+    useNotesStore.getState().bringToFront(note.id);
+
+    expect(useNotesStore.getState().notes).toBe(before);
+  });
 });

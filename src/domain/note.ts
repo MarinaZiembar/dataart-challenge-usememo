@@ -106,6 +106,23 @@ export const defaultRectAt = (center: Point): Rect => ({
 export const nextZIndex = (notes: Note[]) =>
   notes.reduce((max, note) => Math.max(max, note.zIndex), 0) + 1;
 
+const MAX_Z_INDEX = 1000;
+
+const normalizeZIndexes = (notes: Note[]) => {
+  const order = [...notes].sort((a, b) => a.zIndex - b.zIndex).map((note) => note.id);
+  return notes.map((note) => ({ ...note, zIndex: order.indexOf(note.id) + 1 }));
+};
+
+export const bringToFront = (notes: Note[], id: NoteId): Note[] => {
+  const target = notes.find((note) => note.id === id);
+  if (!target) return notes;
+  const isOnTop = notes.every((note) => note.id === id || note.zIndex < target.zIndex);
+  if (isOnTop) return notes;
+  const zIndex = nextZIndex(notes);
+  const raised = notes.map((note) => (note.id === id ? { ...note, zIndex } : note));
+  return zIndex > MAX_Z_INDEX ? normalizeZIndexes(raised) : raised;
+};
+
 export const createId = () => crypto.randomUUID() as NoteId;
 
 export const createNote = (rect: Rect, zIndex: number, now = new Date()): Note => ({
