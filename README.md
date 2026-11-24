@@ -1,0 +1,102 @@
+<p align="center">
+  <img src="docs/cover.png" alt="useMemo — Sticky notes that feel like real stationery" width="100%" />
+</p>
+
+# useMemo
+
+A single-page sticky notes board built with **React + TypeScript** for the DataArt Front-end Challenge. Create, move, resize and toss notes in the trash — notes look like printed notepads, with a pattern frame and a washi-tape strip.
+
+## Links
+
+| Resource              | Link                                                                                                           |
+| --------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Live demo (Vercel)    | _Coming soon — deployed from `main`_                                                                           |
+| Figma                 | [DataArt Challenge - useMemo](https://www.figma.com/design/pVCvK8DkzvEhO6kNmw5EnQ/DataArt-Challenge---useMemo) |
+| Jira board (Sprint 1) | [DCU board](https://marinaziembar-team.atlassian.net/jira/software/projects/DCU/boards/2)                      |
+| PRD                   | [DCU-2 · Product requirements](https://marinaziembar-team.atlassian.net/browse/DCU-2)                          |
+| RFC                   | [DCU-1 · Technical architecture](https://marinaziembar-team.atlassian.net/browse/DCU-1)                        |
+| Architecture          | [ARCHITECTURE.md](ARCHITECTURE.md) _(DCU-19)_                                                                  |
+
+## Tech stack
+
+- React 19 + TypeScript (strict)
+- Vite
+- Zustand for state management
+- Tailwind CSS v4 with the Figma design tokens as theme variables (`src/styles/tokens.css`)
+- Jest + React Testing Library (unit & integration), Playwright (e2e)
+- ESLint, Prettier, Husky + lint-staged
+
+No UI component libraries and no drag-and-drop libraries are used.
+
+## Requirements
+
+- Node.js 20 or newer (`.nvmrc` pins 22)
+- npm 10+
+
+## Getting started
+
+```bash
+git clone https://github.com/MarinaZiembar/dataart-challenge-usememo.git
+cd dataart-challenge-usememo
+npm install
+npm run dev
+```
+
+The app runs at http://localhost:5173.
+
+## Scripts
+
+| Command                 | Description                                   |
+| ----------------------- | --------------------------------------------- |
+| `npm run dev`           | Start the development server                  |
+| `npm run build`         | Type-check and build for production (`dist/`) |
+| `npm run preview`       | Preview the production build                  |
+| `npm run typecheck`     | Run the TypeScript compiler without emitting  |
+| `npm run lint`          | Lint the project with ESLint                  |
+| `npm run format`        | Format all files with Prettier                |
+| `npm test`              | Run unit and integration tests                |
+| `npm run test:coverage` | Run tests with a coverage report              |
+
+## Pre-commit checks
+
+Husky runs these checks on every commit:
+
+1. **lint-staged** on staged files: ESLint (`--fix`), Prettier and Jest tests related to the changed files (`--findRelatedTests`).
+2. **TypeScript** type-check of the whole project (`npm run typecheck`).
+
+The commit is blocked if any check fails.
+
+## Project structure
+
+```
+src/
+├── App/                  # Root component
+├── components/           # UI components (one folder per component)
+│   └── Header/
+│       ├── index.ts
+│       ├── Header.tsx
+│       ├── Header.styles.css
+│       └── Header.test.tsx
+├── domain/               # Types and constants (Note, patterns, sizes)
+├── store/                # Zustand stores
+├── styles/               # Tailwind theme tokens and global styles
+└── test/                 # Jest setup
+```
+
+## Conventions
+
+- **Components:** one folder per component with `index.ts`, `Component.tsx`, `Component.styles.css` and `Component.test.tsx`.
+- **Styles:** components use short semantic class names (`header__logo`); each `Component.styles.css` builds them with Tailwind `@apply` (`@reference '../../styles/global.css'`).
+- **Code:** simple and readable, no code comments, cyclomatic complexity ≤ 10 (enforced by ESLint).
+- **Formatting:** Prettier (`.prettierrc`); VS Code formats on save with the recommended extensions.
+- **Commits:** [Conventional Commits](https://www.conventionalcommits.org/) with the Jira key, e.g. `feat(DCU-7): create a note at a given position`.
+
+## Git workflow
+
+- `main` → production, deployed on Vercel.
+- `development` → integration branch.
+- `feature/DCU-<number>-<short-description>` → one branch per Jira task, opened as a pull request into `development`.
+
+## Browser support
+
+Desktop only (minimum 1024×768) — latest Chrome (Windows & macOS), Firefox and Edge.

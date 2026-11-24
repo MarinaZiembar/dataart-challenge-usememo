@@ -1,0 +1,14 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+@layer base {
+  html,
+  body,
+  #root {
+    @apply m-0 h-full;
+  }
+
+  body {
+    @apply min-h-[768px] min-w-[1024px] bg-board font-sans text-body text-ink antialiased;
+  }
+}

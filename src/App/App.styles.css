@@ -1,0 +1,5 @@
+@reference '../styles/global.css';
+
+.app {
+  @apply relative size-full overflow-hidden;
+}
