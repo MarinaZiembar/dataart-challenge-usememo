@@ -1,0 +1,50 @@
+@theme static {
+  --font-sans: 'Poppins', system-ui, sans-serif;
+
+  --color-board: #fbf1e3;
+  --color-paper: #faf9f6;
+  --color-paper-edge: #e4e1da;
+  --color-surface: #fffdf8;
+  --color-line: #e9ddcb;
+  --color-dot: #e6d9c4;
+  --color-ink: #2b1e2f;
+  --color-muted: #6e5a72;
+  --color-inverse: #fbf1e3;
+  --color-accent: #e8462f;
+  --color-danger: #f26b2a;
+  --color-tape: #e3cc94;
+  --color-pattern-lavender: #dccbf0;
+  --color-pattern-lilac: #b08ee0;
+  --color-pattern-bubblegum: #f7afc7;
+  --color-pattern-pink: #f27a9b;
+  --color-pattern-sunny: #f7be1e;
+  --color-pattern-sage: #5f7a50;
+
+  --text-display: 64px;
+  --text-display--line-height: 1.1;
+  --text-display--font-weight: 700;
+  --text-h1: 40px;
+  --text-h1--line-height: 1.2;
+  --text-h1--font-weight: 700;
+  --text-h2: 28px;
+  --text-h2--line-height: 1.3;
+  --text-h2--font-weight: 600;
+  --text-h3: 20px;
+  --text-h3--line-height: 1.4;
+  --text-h3--font-weight: 600;
+  --text-body: 16px;
+  --text-body--line-height: 1.5;
+  --text-note: 16px;
+  --text-note--line-height: 1.5;
+  --text-note--font-weight: 500;
+  --text-label: 14px;
+  --text-label--line-height: 1.4;
+  --text-label--font-weight: 500;
+  --text-caption: 12px;
+  --text-caption--line-height: 1.4;
+  --text-caption--font-weight: 500;
+
+  --shadow-note-rest: 0 8px 18px -4px rgb(110 77 51 / 18%);
+  --shadow-note-lifted: 0 22px 40px -4px rgb(110 77 51 / 30%);
+  --shadow-dock: 0 8px 24px -4px rgb(110 77 51 / 12%);
+}

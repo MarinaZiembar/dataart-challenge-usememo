@@ -1,0 +1,46 @@
+@reference '../../styles/global.css';
+
+.note {
+  @apply absolute cursor-grab touch-none shadow-note-rest transition-shadow duration-150 ease-out;
+}
+
+.note:focus-visible {
+  @apply outline-2 outline-offset-4 outline-accent;
+}
+
+.note--dragging {
+  @apply cursor-grabbing shadow-note-lifted;
+}
+
+.note--editing {
+  @apply cursor-default;
+}
+
+.note--editing .note__paper {
+  @apply border-2 border-accent;
+}
+
+.note--over-trash {
+  @apply opacity-50;
+}
+
+.note__tape {
+  @apply absolute -top-2.5 left-1/2 h-5 w-[30%] -translate-x-1/2 -rotate-4 bg-tape/90;
+}
+
+.note__paper {
+  @apply absolute inset-[6.5%] overflow-hidden border border-paper-edge bg-paper p-3;
+}
+
+.note__resize {
+  @apply absolute -right-2 -bottom-2 size-[18px] cursor-nwse-resize touch-none rounded-full border-2 border-white bg-accent opacity-0 transition-opacity;
+}
+
+.note:hover .note__resize,
+.note--resizing .note__resize {
+  @apply opacity-100;
+}
+
+.note__size {
+  @apply pointer-events-none absolute right-0 -bottom-9 rounded-full bg-ink px-2.5 py-1 text-caption whitespace-nowrap text-inverse;
+}

@@ -1,0 +1,17 @@
+@reference '../../styles/global.css';
+
+.board {
+  @apply absolute inset-0 isolate cursor-crosshair touch-none bg-board bg-[radial-gradient(var(--color-dot)_1.2px,transparent_1.2px)] bg-size-[24px_24px] select-none;
+}
+
+.board__empty {
+  @apply pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center;
+}
+
+.board__empty-title {
+  @apply m-0 mb-3 text-h1;
+}
+
+.board__empty-text {
+  @apply m-0 text-body text-muted;
+}
