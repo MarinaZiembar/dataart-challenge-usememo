@@ -1,0 +1,5 @@
+@reference '../../styles/global.css';
+
+.note-pattern {
+  @apply pointer-events-none absolute inset-0 size-full;
+}

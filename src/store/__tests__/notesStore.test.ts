@@ -18,7 +18,7 @@ const bounds = { width: 1000, height: 800 };
 
 describe('notesStore', () => {
   beforeEach(() => {
-    useNotesStore.setState({ notes: [], drag: null });
+    useNotesStore.setState({ notes: [], drag: null, newNotePattern: 'pink-stars' });
   });
 
   it('starts with an empty board', () => {
@@ -144,5 +144,32 @@ describe('notesStore', () => {
     useNotesStore.getState().bringToFront(note.id);
 
     expect(useNotesStore.getState().notes).toBe(before);
+  });
+
+  it('changes the pattern of a note', () => {
+    useNotesStore.getState().setNotes([note]);
+
+    useNotesStore.getState().setPattern(note.id, 'half-moons');
+
+    const [updated] = useNotesStore.getState().notes;
+    expect(updated?.pattern).toBe('half-moons');
+    expect(updated?.updatedAt).not.toBe(note.updatedAt);
+  });
+
+  it('keeps the note untouched when the pattern does not change', () => {
+    useNotesStore.getState().setNotes([note]);
+
+    useNotesStore.getState().setPattern(note.id, 'pink-stars');
+
+    expect(useNotesStore.getState().notes[0]).toBe(note);
+  });
+
+  it('creates new notes with the selected pattern', () => {
+    useNotesStore.getState().setNewNotePattern('sunny-daisies');
+
+    useNotesStore.getState().addNote({ x: 0, y: 0, width: 200, height: 200 }, bounds);
+
+    expect(useNotesStore.getState().newNotePattern).toBe('sunny-daisies');
+    expect(useNotesStore.getState().notes[0]?.pattern).toBe('sunny-daisies');
   });
 });

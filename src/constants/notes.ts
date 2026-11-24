@@ -29,3 +29,16 @@ export const NOTE_FONT_SIZE = {
 export const MAX_TEXT_LENGTH = 1000;
 
 export const MAX_Z_INDEX = 1000;
+
+export const PATTERN_LABELS: Record<NotePattern, string> = {
+  'lilac-blooms': 'Lilac blooms',
+  'pink-stars': 'Pink stars',
+  'lavender-checker': 'Lavender checker',
+  'hearts-checker': 'Hearts checker',
+  'wobbly-grid': 'Wobbly grid',
+  'lavender-waves': 'Lavender waves',
+  'half-moons': 'Half moons',
+  'sunny-daisies': 'Sunny daisies',
+};
+
+export const PATTERN_VIEW_SIZE = 150;

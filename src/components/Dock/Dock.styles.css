@@ -15,3 +15,19 @@
 .dock__hint {
   @apply text-caption text-muted;
 }
+
+.dock__pattern {
+  @apply flex cursor-pointer items-center gap-2.5 rounded-full border-0 bg-transparent py-1.5 pr-3 pl-1.5 text-label text-ink transition-colors hover:bg-board focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink;
+}
+
+.dock__swatch {
+  @apply relative size-[22px] overflow-hidden rounded-sm;
+}
+
+.dock__caret {
+  @apply text-caption text-muted;
+}
+
+.dock__picker {
+  @apply bottom-[calc(100%+12px)] left-1/2 -translate-x-1/2;
+}

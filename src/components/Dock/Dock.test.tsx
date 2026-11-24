@@ -4,7 +4,7 @@ import { useNotesStore } from '../../store/notesStore';
 
 describe('Dock', () => {
   beforeEach(() => {
-    useNotesStore.setState({ notes: [], drag: null });
+    useNotesStore.setState({ notes: [], drag: null, newNotePattern: 'pink-stars' });
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1440 });
     Object.defineProperty(window, 'innerHeight', { configurable: true, value: 900 });
   });
@@ -30,5 +30,26 @@ describe('Dock', () => {
     fireEvent.click(button);
 
     expect(useNotesStore.getState().notes[1]).toMatchObject({ x: 644, y: 374 });
+  });
+
+  it('shows the pattern used for new notes', () => {
+    render(<Dock />);
+
+    expect(
+      screen.getByRole('button', { name: 'Pattern for new notes: Pink stars' }),
+    ).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('creates new notes with the pattern picked in the dock', () => {
+    render(<Dock />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Pattern for new notes: Pink stars' }));
+    fireEvent.click(screen.getByRole('radio', { name: 'Lavender waves' }));
+    fireEvent.click(screen.getByRole('button', { name: '+ New note' }));
+
+    expect(useNotesStore.getState().notes[0]?.pattern).toBe('lavender-waves');
+    expect(
+      screen.getByRole('button', { name: 'Pattern for new notes: Lavender waves' }),
+    ).toHaveFocus();
   });
 });

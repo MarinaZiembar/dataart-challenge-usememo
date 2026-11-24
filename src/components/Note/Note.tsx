@@ -1,9 +1,11 @@
 import { memo, useState, type KeyboardEvent } from 'react';
 import type { Point } from '../../types/geometry';
-import type { Note as NoteModel } from '../../types/notes';
+import type { Note as NoteModel, NotePattern as NotePatternName } from '../../types/notes';
 import { noteFontSize } from '../../utils/notes';
 import { useMoveNote } from '../../hooks/useMoveNote';
 import { useResizeNote } from '../../hooks/useResizeNote';
+import { NotePattern } from '../NotePattern';
+import { NotePatternMenu } from '../NotePatternMenu';
 import { NoteText } from '../NoteText';
 import { useNotesStore } from '../../store/notesStore';
 import './Note.styles.css';
@@ -40,6 +42,7 @@ export const Note = memo(function Note({ note }: NoteProps) {
   const isResizing = size !== null;
   const [isEditing, setIsEditing] = useState(false);
   const { width, height } = size ?? note;
+  const isIdle = !isDragging && !isResizing;
 
   const style = {
     left: note.x,
@@ -65,6 +68,9 @@ export const Note = memo(function Note({ note }: NoteProps) {
     setIsEditing(false);
   };
 
+  const onChangePattern = (pattern: NotePatternName) =>
+    useNotesStore.getState().setPattern(note.id, pattern);
+
   return (
     <article
       className={classNameFor({ isDragging, isResizing, isOverTrash, isEditing })}
@@ -78,14 +84,20 @@ export const Note = memo(function Note({ note }: NoteProps) {
       onFocus={() => useNotesStore.getState().bringToFront(note.id)}
       {...bodyProps}
     >
-      {!isDragging && !isResizing && (
-        <span className="note__tape" data-testid="washi-tape" aria-hidden="true" />
-      )}
+      <NotePattern pattern={note.pattern} size={{ width, height }} />
+      {isIdle && <span className="note__tape" data-testid="washi-tape" aria-hidden="true" />}
       <div className="note__paper">
         <NoteText text={note.text} isEditing={isEditing} onSave={onSaveText} />
       </div>
       {!isDragging && (
         <span className="note__resize" role="presentation" title="Resize" {...handleProps} />
+      )}
+      {isIdle && (
+        <NotePatternMenu
+          pattern={note.pattern}
+          noteRight={note.x + width}
+          onChange={onChangePattern}
+        />
       )}
       {isResizing && (
         <span className="note__size">

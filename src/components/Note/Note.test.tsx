@@ -341,4 +341,27 @@ describe('Note', () => {
       expect(useNotesStore.getState().drag).toBeNull();
     });
   });
+
+  it('is printed with its pattern', () => {
+    const { article } = renderOnBoard();
+
+    expect(article.querySelector('svg[data-pattern="pink-stars"]')).toBeInTheDocument();
+  });
+
+  it('changes its pattern from the pattern menu', () => {
+    renderOnBoard();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Change pattern' }));
+    fireEvent.click(screen.getByRole('radio', { name: 'Sunny daisies' }));
+
+    expect(useNotesStore.getState().notes[0]?.pattern).toBe('sunny-daisies');
+  });
+
+  it('hides the pattern menu while resizing', () => {
+    const { handle } = renderOnBoard();
+
+    drag(handle, [40, 40]);
+
+    expect(screen.queryByRole('button', { name: 'Change pattern' })).not.toBeInTheDocument();
+  });
 });
