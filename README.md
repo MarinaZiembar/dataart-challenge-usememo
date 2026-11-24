@@ -95,14 +95,17 @@ The app runs at http://localhost:5173.
 | `npm run format`        | Format all files with Prettier                |
 | `npm test`              | Run unit and integration tests                |
 | `npm run test:coverage` | Run tests with a coverage report              |
+| `npm run e2e`           | Run the Playwright end-to-end tests           |
+| `npm run e2e:ui`        | Open the Playwright UI mode                   |
+| `npm run e2e:report`    | Open the last Playwright HTML report          |
 
 ## Tests and CI
 
 - **Unit tests** cover every pure function, the storage service, the store and the hooks. They live in a `__tests__` folder next to the code (`utils/`, `services/`, `store/`, `hooks/`).
 - **Component and integration tests** live next to each component (`Component.test.tsx`). `App.test.tsx` runs the whole app the way `main.tsx` starts it: notes restored from a real `localStorage`, every user flow (create, move, resize, edit, change pattern, bring to front, delete) checked on screen and in storage, plus broken data and a full or blocked storage.
 - **Coverage:** `npm run test:coverage` fails if `src/utils`, `src/services`, `src/store` or `src/hooks` drop below 80% (statements, branches, functions and lines).
-- **End-to-end:** Playwright tests across Chrome, Firefox and Edge are planned in DCU-20.
-- **CI:** GitHub Actions (`.github/workflows/ci.yml`) runs lint, typecheck and the tests with coverage on every push and on pull requests to `development` and `main`.
+- **End-to-end:** Playwright tests in `e2e/` run every user flow in Chrome, Firefox and Edge at 1440×900, plus a 1024×768 check, against the production build (`npm run build && npm run preview`, started automatically). They use page objects (`BoardPage`, `NoteComponent`, `TrashZone`) and fail if the page throws any error. The first time, install the browsers with `npx playwright install chromium firefox msedge`.
+- **CI:** GitHub Actions (`.github/workflows/ci.yml`) runs lint, typecheck and the tests with coverage on every push and on pull requests to `development` and `main`; a second job runs the end-to-end tests in the three browsers and uploads the Playwright report.
 
 ## Pre-commit checks
 
@@ -116,6 +119,14 @@ The commit is blocked if any check fails.
 ## Project structure
 
 ```
+e2e/
+├── pages/                # Page objects: BoardPage, NoteComponent, TrashZone
+├── fixtures.ts           # boardPage fixture that fails on page errors
+├── notes.spec.ts         # Create, move, resize, delete, bring to front, washi tape
+├── editing.spec.ts       # Text and patterns, kept after a reload
+├── persistence.spec.ts   # Reload, versioned key, broken data, full storage
+└── accessibility.spec.ts # Keyboard and the 1024×768 minimum
+
 docs/
 ├── ARCHITECTURE.md       # Architecture description
 └── cover.png             # README cover
