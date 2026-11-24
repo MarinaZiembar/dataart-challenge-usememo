@@ -1,6 +1,13 @@
-import { DEFAULT_PATTERN, MAX_Z_INDEX, NOTE_FONT_SIZE, NOTE_SIZE } from '../constants/notes';
+import {
+  DEFAULT_PATTERN,
+  MAX_TEXT_LENGTH,
+  MAX_Z_INDEX,
+  NOTE_FONT_SIZE,
+  NOTE_PATTERNS,
+  NOTE_SIZE,
+} from '../constants/notes';
 import type { Point, Rect, Size } from '../types/geometry';
-import type { Note, NoteId } from '../types/notes';
+import type { Note, NoteId, NotePattern } from '../types/notes';
 import { clamp, clampToBounds } from './geometry';
 
 export const clampSize = ({ width, height }: Size): Size => ({
@@ -61,3 +68,20 @@ export const createNote = (rect: Rect, zIndex: number, now = new Date()): Note =
   createdAt: now.toISOString(),
   updatedAt: now.toISOString(),
 });
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null;
+
+const isFiniteNumber = (value: unknown) => typeof value === 'number' && Number.isFinite(value);
+
+const NUMBER_KEYS = ['x', 'y', 'width', 'height', 'zIndex'] as const;
+
+const STRING_KEYS = ['id', 'createdAt', 'updatedAt'] as const;
+
+export const isNote = (value: unknown): value is Note =>
+  isRecord(value) &&
+  NUMBER_KEYS.every((key) => isFiniteNumber(value[key])) &&
+  STRING_KEYS.every((key) => typeof value[key] === 'string') &&
+  typeof value.text === 'string' &&
+  value.text.length <= MAX_TEXT_LENGTH &&
+  NOTE_PATTERNS.includes(value.pattern as NotePattern);

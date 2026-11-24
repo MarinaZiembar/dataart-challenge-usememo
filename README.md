@@ -77,15 +77,23 @@ src/
 │       ├── Note.tsx
 │       ├── Note.styles.css
 │       └── Note.test.tsx
-├── constants/            # Product rules (note sizes, text size, patterns, limits)
-│   └── notes.ts
+├── constants/            # Product rules, one file per subject
+│   ├── notes.ts          # Note sizes, text size, patterns, limits
+│   └── storage.ts        # Storage key and save delay
 ├── hooks/                # Gesture hooks (draw, move, resize)
+├── services/             # Code that talks to the outside world
+│   ├── __tests__/
+│   └── notesStorage.ts   # Load and save notes in localStorage
 ├── store/                # Zustand store
+│   ├── __tests__/
+│   ├── notesStore.ts     # Notes, drag state and save status
+│   └── persistNotes.ts   # Restore on load, debounced save, flush on page hide
 ├── styles/               # Tailwind theme tokens and global styles
 ├── test/                 # Jest setup
 ├── types/                # Shared types, one file per subject
 │   ├── geometry.ts       # Point, Size, Rect
-│   └── notes.ts          # Note, NoteId, NotePattern
+│   ├── notes.ts          # Note, NoteId, NotePattern
+│   └── storage.ts        # SaveStatus
 └── utils/                # Pure helper functions, one file per subject
     ├── __tests__/
     │   ├── board.test.ts
@@ -93,7 +101,7 @@ src/
     │   └── notes.test.ts
     ├── board.ts          # Board and trash zone rects
     ├── geometry.ts       # clamp, rect from points, click, overlap
-    └── notes.ts          # Create, fit, resize, font size, layers
+    └── notes.ts          # Create, fit, resize, font size, layers, isNote
 ```
 
 ## Conventions
