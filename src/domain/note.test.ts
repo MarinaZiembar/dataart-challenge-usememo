@@ -5,6 +5,7 @@ import {
   defaultRectAt,
   fitRect,
   isClick,
+  isOverlapping,
   resizeRect,
   nextZIndex,
   rectFromPoints,
@@ -109,6 +110,14 @@ describe('note domain', () => {
     );
 
     expect(moved).toMatchObject({ x: 0, y: 600, zIndex: 1, text: '' });
+  });
+
+  it('detects overlapping rects', () => {
+    const trash = { x: 800, y: 600, width: 160, height: 120 };
+
+    expect(isOverlapping({ x: 700, y: 550, width: 200, height: 200 }, trash)).toBe(true);
+    expect(isOverlapping({ x: 100, y: 100, width: 200, height: 200 }, trash)).toBe(false);
+    expect(isOverlapping({ x: 600, y: 600, width: 200, height: 200 }, trash)).toBe(false);
   });
 
   it('detects a click when the pointer barely moves', () => {

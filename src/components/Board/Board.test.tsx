@@ -36,7 +36,7 @@ const draw = (board: HTMLElement, from: [number, number], to: [number, number]) 
 
 describe('Board', () => {
   beforeEach(() => {
-    useNotesStore.setState({ notes: [] });
+    useNotesStore.setState({ notes: [], drag: null });
   });
 
   it('shows the empty state when there are no notes', () => {

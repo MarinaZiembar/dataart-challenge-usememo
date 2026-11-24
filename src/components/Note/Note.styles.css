@@ -4,8 +4,16 @@
   @apply absolute cursor-grab touch-none bg-pattern-bubblegum shadow-note-rest transition-shadow duration-150 ease-out;
 }
 
+.note:focus-visible {
+  @apply outline-2 outline-offset-4 outline-accent;
+}
+
 .note--dragging {
   @apply cursor-grabbing shadow-note-lifted;
+}
+
+.note--over-trash {
+  @apply opacity-50;
 }
 
 .note__tape {

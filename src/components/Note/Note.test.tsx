@@ -42,7 +42,7 @@ const drag = (handle: HTMLElement, by: [number, number]) => {
 
 describe('Note', () => {
   beforeEach(() => {
-    useNotesStore.setState({ notes: [] });
+    useNotesStore.setState({ notes: [], drag: null });
   });
 
   it('is placed at its position with its size and layer', () => {
@@ -176,6 +176,14 @@ describe('Note', () => {
       expect(screen.queryByTitle('Resize')).not.toBeInTheDocument();
     });
 
+    it('stays above the other notes while dragging', () => {
+      const { article } = renderOnBoard();
+
+      move(article, [30, 30]);
+
+      expect(article).toHaveStyle({ zIndex: '10000' });
+    });
+
     it('peels off the washi tape while dragging', () => {
       const { article } = renderOnBoard();
 
@@ -210,6 +218,66 @@ describe('Note', () => {
       fireEvent.pointerDown(handle, { clientX: 300, clientY: 300, button: 0, pointerId: 1 });
 
       expect(article).not.toHaveClass('note--dragging');
+    });
+  });
+
+  describe('deleting', () => {
+    const renderWithTrash = () => {
+      const result = renderOnBoard();
+      const trash = document.createElement('div');
+      trash.setAttribute('data-trash-zone', '');
+      document.body.appendChild(trash);
+      jest.spyOn(trash, 'getBoundingClientRect').mockReturnValue({
+        left: 800,
+        top: 600,
+        width: 160,
+        height: 120,
+      } as DOMRect);
+      return result;
+    };
+
+    afterEach(() => {
+      document.querySelector('[data-trash-zone]')?.remove();
+    });
+
+    it('fades while it is over the trash zone', () => {
+      const { article } = renderWithTrash();
+
+      fireEvent.pointerDown(article, { clientX: 100, clientY: 100, button: 0, pointerId: 1 });
+      fireEvent.pointerMove(article, { clientX: 800, clientY: 600, pointerId: 1 });
+
+      expect(article).toHaveClass('note--over-trash');
+      expect(useNotesStore.getState().drag).toEqual({ id: note.id, overTrash: true });
+    });
+
+    it('is deleted when released over the trash zone', () => {
+      const { article } = renderWithTrash();
+
+      fireEvent.pointerDown(article, { clientX: 100, clientY: 100, button: 0, pointerId: 1 });
+      fireEvent.pointerMove(article, { clientX: 800, clientY: 600, pointerId: 1 });
+      fireEvent.pointerUp(article, { clientX: 800, clientY: 600, pointerId: 1 });
+
+      expect(useNotesStore.getState().notes).toEqual([]);
+      expect(useNotesStore.getState().drag).toBeNull();
+    });
+
+    it('is kept when released anywhere else', () => {
+      const { article } = renderWithTrash();
+
+      fireEvent.pointerDown(article, { clientX: 100, clientY: 100, button: 0, pointerId: 1 });
+      fireEvent.pointerMove(article, { clientX: 300, clientY: 200, pointerId: 1 });
+      fireEvent.pointerUp(article, { clientX: 300, clientY: 200, pointerId: 1 });
+
+      expect(useNotesStore.getState().notes).toHaveLength(1);
+    });
+
+    it('is deleted with the Delete key when focused', () => {
+      const { article } = renderOnBoard();
+
+      article.focus();
+      fireEvent.keyDown(article, { key: 'Delete' });
+
+      expect(useNotesStore.getState().notes).toEqual([]);
     });
   });
 });

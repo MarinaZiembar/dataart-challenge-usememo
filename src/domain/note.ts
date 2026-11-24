@@ -70,6 +70,9 @@ export const resizeRect = (rect: Rect, size: Size, bounds: Size): Rect => {
   };
 };
 
+export const isOverlapping = (a: Rect, b: Rect) =>
+  a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
+
 export const rectFromPoints = (start: Point, end: Point): Rect => ({
   x: Math.min(start.x, end.x),
   y: Math.min(start.y, end.y),
