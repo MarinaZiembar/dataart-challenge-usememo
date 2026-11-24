@@ -60,7 +60,7 @@ The app runs at http://localhost:5173.
 ## Tests and CI
 
 - **Unit tests** cover every pure function, the storage service, the store and the hooks. They live in a `__tests__` folder next to the code (`utils/`, `services/`, `store/`, `hooks/`).
-- **Component and integration tests** live next to each component (`Component.test.tsx`).
+- **Component and integration tests** live next to each component (`Component.test.tsx`). `App.test.tsx` runs the whole app the way `main.tsx` starts it: notes restored from a real `localStorage`, every user flow (create, move, resize, edit, change pattern, bring to front, delete) checked on screen and in storage, plus broken data and a full or blocked storage.
 - **Coverage:** `npm run test:coverage` fails if `src/utils`, `src/services`, `src/store` or `src/hooks` drop below 80% (statements, branches, functions and lines).
 - **CI:** GitHub Actions (`.github/workflows/ci.yml`) runs lint, typecheck and the tests with coverage on every push and on pull requests to `development` and `main`.
 
