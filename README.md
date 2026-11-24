@@ -57,6 +57,13 @@ The app runs at http://localhost:5173.
 | `npm test`              | Run unit and integration tests                |
 | `npm run test:coverage` | Run tests with a coverage report              |
 
+## Tests and CI
+
+- **Unit tests** cover every pure function, the storage service, the store and the hooks. They live in a `__tests__` folder next to the code (`utils/`, `services/`, `store/`, `hooks/`).
+- **Component and integration tests** live next to each component (`Component.test.tsx`).
+- **Coverage:** `npm run test:coverage` fails if `src/utils`, `src/services`, `src/store` or `src/hooks` drop below 80% (statements, branches, functions and lines).
+- **CI:** GitHub Actions (`.github/workflows/ci.yml`) runs lint, typecheck and the tests with coverage on every push and on pull requests to `development` and `main`.
+
 ## Pre-commit checks
 
 Husky runs these checks on every commit:
@@ -81,6 +88,7 @@ src/
 │   ├── notes.ts          # Note sizes, text size, patterns, limits
 │   └── storage.ts        # Storage key and save delay
 ├── hooks/                # Gesture hooks (draw, move, resize) and popover dismiss
+│   └── __tests__/
 ├── services/             # Code that talks to the outside world
 │   ├── __tests__/
 │   └── notesStorage.ts   # Load and save notes in localStorage
@@ -89,7 +97,7 @@ src/
 │   ├── notesStore.ts     # Notes, drag state and save status
 │   └── persistNotes.ts   # Restore on load, debounced save, flush on page hide
 ├── styles/               # Tailwind theme tokens and global styles
-├── test/                 # Jest setup
+├── test/                 # Jest setup and pointer event helpers
 ├── types/                # Shared types, one file per subject
 │   ├── geometry.ts       # Point, Size, Rect
 │   ├── notes.ts          # Note, NoteId, NotePattern
@@ -108,7 +116,7 @@ src/
 
 ## Conventions
 
-- **Types, utils and constants:** one file per subject (`notes.ts`, `geometry.ts`…); tests of `utils/` live in `utils/__tests__/`.
+- **Types, utils and constants:** one file per subject (`notes.ts`, `geometry.ts`…); tests of non-component folders (`utils/`, `services/`, `store/`, `hooks/`) live in a `__tests__` folder inside them.
 - **Components:** one folder per component with `index.ts`, `Component.tsx`, `Component.styles.css` and `Component.test.tsx`.
 - **Styles:** components use short semantic class names (`header__logo`); each `Component.styles.css` builds them with Tailwind `@apply` (`@reference '../../styles/global.css'`).
 - **Code:** simple and readable, no code comments, cyclomatic complexity ≤ 10 (enforced by ESLint).
