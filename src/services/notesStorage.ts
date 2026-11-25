@@ -13,7 +13,8 @@ export const getStorage = (): Storage | null => {
   }
 };
 
-const parse = (raw: string): unknown => {
+const parse = (raw: string | null): unknown => {
+  if (!raw) return null;
   try {
     return JSON.parse(raw);
   } catch {
@@ -21,7 +22,8 @@ const parse = (raw: string): unknown => {
   }
 };
 
-const readRaw = (storage: Storage) => {
+const readRaw = (storage: Storage | null) => {
+  if (!storage) return null;
   try {
     return storage.getItem(STORAGE_KEY);
   } catch {
@@ -30,8 +32,7 @@ const readRaw = (storage: Storage) => {
 };
 
 export const loadNotes = (storage: Storage | null): Note[] => {
-  const raw = storage ? readRaw(storage) : null;
-  const data = raw ? parse(raw) : null;
+  const data = parse(readRaw(storage));
   if (!Array.isArray(data)) return [];
   const ids = new Set<string>();
   return data.filter(isNote).flatMap((note) => {

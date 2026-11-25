@@ -1,0 +1,1 @@
+export { SmallScreenNotice } from './SmallScreenNotice';

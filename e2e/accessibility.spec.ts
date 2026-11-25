@@ -68,3 +68,22 @@ test.describe('Minimum resolution', () => {
     await expect(boardPage.notes).toHaveCount(2);
   });
 });
+
+test.describe('Below the minimum resolution', () => {
+  test.use({ viewport: { width: 1023, height: 768 } });
+
+  test('shows only the header and asks for a bigger screen', async ({ boardPage, page }) => {
+    await boardPage.openRaw(JSON.stringify([seedNote({ id: 'a', text: 'Still here' })]));
+
+    await expect(boardPage.smallScreenNotice).toBeVisible();
+    await expect(boardPage.saveStatus).toBeVisible();
+    await expect(boardPage.board).toHaveCount(0);
+    await expect(boardPage.newNoteButton).toHaveCount(0);
+    await expect(boardPage.trash.root).toHaveCount(0);
+
+    await page.setViewportSize({ width: 1440, height: 900 });
+
+    await expect(boardPage.smallScreenNotice).toHaveCount(0);
+    await expect(boardPage.notes).toContainText('Still here');
+  });
+});
