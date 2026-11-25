@@ -1,7 +1,7 @@
 {
   "name": "usememo",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "useMemo — a sticky notes single-page app built with React + TypeScript.",
   "type": "module",
   "engines": {

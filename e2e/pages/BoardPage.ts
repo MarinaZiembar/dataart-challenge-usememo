@@ -36,6 +36,7 @@ export class BoardPage {
   readonly saveStatus: Locator;
   readonly newNoteButton: Locator;
   readonly emptyState: Locator;
+  readonly smallScreenNotice: Locator;
   readonly trash: TrashZone;
   readonly errors: string[] = [];
 
@@ -45,6 +46,7 @@ export class BoardPage {
     this.saveStatus = page.getByRole('status').first();
     this.newNoteButton = page.getByRole('button', { name: '+ New note' });
     this.emptyState = page.getByRole('heading', { name: 'Your board is empty' });
+    this.smallScreenNotice = page.getByRole('main', { name: 'Grab a bigger screen' });
     this.trash = new TrashZone(page);
     page.on('pageerror', (error) => this.errors.push(error.message));
   }

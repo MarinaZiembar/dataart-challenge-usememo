@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { App } from './App';
 import { SAVE_DELAY, STORAGE_KEY } from '../constants/storage';
 import { persistNotes } from '../store/persistNotes';
+import { setScreenMatches } from '../test/matchMedia';
 import { useNotesStore } from '../store/notesStore';
 import type { Note, NoteId } from '../types/notes';
 
@@ -85,6 +86,34 @@ describe('App', () => {
     expect(screen.getByRole('main', { name: 'Notes board' })).toBeInTheDocument();
     expect(screen.getByRole('region', { name: 'Trash' })).toBeInTheDocument();
     expect(screen.getByRole('navigation', { name: 'Board tools' })).toBeInTheDocument();
+  });
+
+  describe('small screens', () => {
+    it('shows only the header and a notice below 1024 × 768', () => {
+      seed([note]);
+      setScreenMatches(false);
+      stopPersisting = persistNotes(localStorage);
+      render(<App />);
+
+      expect(screen.getByRole('banner')).toBeInTheDocument();
+      expect(screen.getByRole('main', { name: 'Grab a bigger screen' })).toBeInTheDocument();
+      expect(screen.queryByRole('main', { name: 'Notes board' })).not.toBeInTheDocument();
+      expect(screen.queryByRole('region', { name: 'Trash' })).not.toBeInTheDocument();
+      expect(screen.queryByRole('navigation', { name: 'Board tools' })).not.toBeInTheDocument();
+    });
+
+    it('brings the board back with the saved notes when the screen grows', () => {
+      seed([note]);
+      setScreenMatches(false);
+      stopPersisting = persistNotes(localStorage);
+      render(<App />);
+
+      act(() => setScreenMatches(true));
+
+      expect(screen.queryByRole('main', { name: 'Grab a bigger screen' })).not.toBeInTheDocument();
+      expect(screen.getByRole('main', { name: 'Notes board' })).toBeInTheDocument();
+      expect(screen.getByRole('article', { name: 'Note' })).toBeInTheDocument();
+    });
   });
 
   describe('loading', () => {

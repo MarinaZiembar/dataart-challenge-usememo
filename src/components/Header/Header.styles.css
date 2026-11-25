@@ -1,15 +1,15 @@
 @reference '../../styles/global.css';
 
 .header {
-  @apply absolute top-6 left-6 z-10 inline-flex items-center gap-3 rounded-full border border-line bg-surface px-6 py-2 shadow-dock;
+  @apply absolute top-6 left-6 z-10 inline-flex items-center gap-3 rounded-full border border-line bg-surface max-w-[calc(100%-3rem)] px-6 py-2 shadow-dock;
 }
 
 .header__logo {
-  @apply text-h3;
+  @apply shrink-0 text-h3;
 }
 
 .header__dot {
-  @apply size-2 rounded-full bg-pattern-sage transition-colors duration-200;
+  @apply size-2 shrink-0 rounded-full bg-pattern-sage transition-colors duration-200;
 }
 
 .header__dot--saving {
@@ -22,5 +22,5 @@
 }
 
 .header__status {
-  @apply text-caption text-muted;
+  @apply min-w-0 truncate text-caption text-muted;
 }
