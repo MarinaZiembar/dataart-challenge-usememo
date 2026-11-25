@@ -60,6 +60,12 @@ describe('notesStorage', () => {
       expect(loadNotes(localStorage)).toEqual([note]);
     });
 
+    it('ignores an empty value', () => {
+      localStorage.setItem(STORAGE_KEY, '');
+
+      expect(loadNotes(localStorage)).toEqual([]);
+    });
+
     it('ignores corrupted data', () => {
       localStorage.setItem(STORAGE_KEY, '{not json');
 

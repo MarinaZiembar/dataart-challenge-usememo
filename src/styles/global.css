@@ -9,6 +9,6 @@
   }
 
   body {
-    @apply min-h-[768px] min-w-[1024px] bg-board font-sans text-body text-ink antialiased;
+    @apply bg-board font-sans text-body text-ink antialiased;
   }
 }

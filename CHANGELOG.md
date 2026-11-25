@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented here. The project follows [Semantic Versioning](https://semver.org/).
 
+## [1.0.1] – 2026-11-24
+
+### Fixed
+
+- **Small screens:** below 1024×768 the app shows only the header and a notice asking to open useMemo on a computer, instead of a board that doesn't fit. The board comes back with the saved notes as soon as the window is big enough.
+- **Loading notes:** the storage helpers now take care of a missing storage or an empty value themselves, so loading reads in one line without extra checks.
+
 ## [1.0.0] – 2026-11-24
 
 First release of useMemo, the result of Sprint 1 of the DataArt Front-end Challenge. Live at [usememo-three.vercel.app](https://usememo-three.vercel.app).

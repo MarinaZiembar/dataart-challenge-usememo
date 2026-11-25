@@ -126,7 +126,7 @@ e2e/
 ├── notes.spec.ts         # Create, move, resize, delete, bring to front, washi tape
 ├── editing.spec.ts       # Text and patterns, kept after a reload
 ├── persistence.spec.ts   # Reload, versioned key, broken data, full storage
-└── accessibility.spec.ts # Keyboard and the 1024×768 minimum
+└── accessibility.spec.ts # Keyboard, the 1024×768 minimum and smaller screens
 
 docs/
 ├── ARCHITECTURE.md       # Architecture description
@@ -150,11 +150,13 @@ src/
 │   ├── NotePatternMenu/  # Swatch button on a note that opens the picker
 │   ├── NoteText/         # Note text and the text field
 │   ├── PatternPicker/    # Popover with the 8 patterns
+│   ├── SmallScreenNotice/ # Notice shown below 1024×768
 │   └── TrashZone/        # Drop zone to delete notes
 ├── constants/            # Product rules, one file per subject
 │   ├── notes.ts          # Note sizes, text size, patterns, limits
+│   ├── screen.ts         # Minimum screen size
 │   └── storage.ts        # Storage key and save delay
-├── hooks/                # Gesture hooks (draw, move, resize) and popover dismiss
+├── hooks/                # Gesture hooks (draw, move, resize), popover dismiss and media query
 │   └── __tests__/
 ├── services/             # Code that talks to the outside world
 │   ├── __tests__/
@@ -195,7 +197,8 @@ src/
 - `main` → production, deployed on Vercel.
 - `development` → integration branch.
 - `feature/DCU-<number>-<short-description>` → one branch per Jira task, opened as a pull request into `development`.
+- `hotfix/v<version>` → a fix made from `main`, merged into both `main` and `development`.
 
 ## Browser support
 
-Desktop only (minimum 1024×768) — latest Chrome (Windows & macOS), Firefox and Edge.
+Desktop only (minimum 1024×768) — latest Chrome (Windows & macOS), Firefox and Edge. On smaller screens the app shows only the header and a notice asking to open it on a computer.

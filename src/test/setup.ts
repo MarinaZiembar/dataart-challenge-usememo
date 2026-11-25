@@ -1,4 +1,9 @@
 import '@testing-library/jest-dom';
+import { installMatchMedia, setScreenMatches } from './matchMedia';
+
+installMatchMedia();
+
+beforeEach(() => setScreenMatches(true));
 
 if (typeof window.PointerEvent === 'undefined') {
   class PointerEventPolyfill extends MouseEvent {
