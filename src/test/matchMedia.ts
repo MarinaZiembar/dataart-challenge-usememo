@@ -23,3 +23,5 @@ export const setScreenMatches = (value: boolean) => {
   matches = value;
   listeners.forEach((listener) => listener());
 };
+
+export const matchMediaListenerCount = () => listeners.size;

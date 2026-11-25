@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react';
 import { useMediaQuery } from '../useMediaQuery';
-import { setScreenMatches } from '../../test/matchMedia';
+import { matchMediaListenerCount, setScreenMatches } from '../../test/matchMedia';
 
 const QUERY = '(min-width: 1024px)';
 
@@ -22,14 +22,12 @@ describe('useMediaQuery', () => {
   });
 
   it('stops listening on unmount', () => {
-    const removeSpy = jest.fn();
-    const original = window.matchMedia;
-    window.matchMedia = (query: string) => ({ ...original(query), removeEventListener: removeSpy });
-
+    const before = matchMediaListenerCount();
     const { unmount } = renderHook(() => useMediaQuery(QUERY));
+    expect(matchMediaListenerCount()).toBe(before + 1);
+
     unmount();
 
-    expect(removeSpy).toHaveBeenCalledWith('change', expect.any(Function));
-    window.matchMedia = original;
+    expect(matchMediaListenerCount()).toBe(before);
   });
 });
